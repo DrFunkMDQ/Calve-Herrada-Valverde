@@ -1,6 +1,6 @@
 #include "string.h"
-#include "stdio.h"
-#include "stdlib.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 typedef struct
 {
@@ -31,13 +31,6 @@ typedef struct
     int valUser;
 } stPelisVistas;
 
-typedef struct
-{
-    stUsuario usr;
-    nodoListaPelicula * listaPelis;
-    nodoUsuario * sig;
-} nodoUsuario;
-
 typedef struct{
     int admin;
     int idUsuario;
@@ -48,3 +41,17 @@ typedef struct{
     int anioNacimiento;
     int eliminado;
 }stUsuario;
+
+typedef struct{
+    stPelicula pelicula;
+    stPelicula * sig;
+} nodoListaPelicula;
+
+typedef struct
+{
+    stUsuario usr;
+    nodoListaPelicula * listaPelis;
+    struct nodoUsuario * sig;
+} nodoUsuario;
+
+
