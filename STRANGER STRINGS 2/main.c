@@ -9,9 +9,10 @@ int main()
     printf("Hello world!\n");
     nodoUsuario * ListaDeListas;
     ListaDeListas=inicLista();
-    pasarDeArchivoUsuariosToLDL(archUsuarios, ListaDeListas);
-    muestraNodoUsuario(ListaDeListas);
-    printf("aaaa");
+    //cargaArchivoUsuarios(archUsuarios, ListaDeListas);
+    //muestraArchivo(archUsuarios);
+    ListaDeListas=pasarDeArchivoUsuariosToLDL(archUsuarios, ListaDeListas);
+    ListaDeListas=agregarUsuario(ListaDeListas);
     recorreListaUsuarios(ListaDeListas);
     return 0;
 }

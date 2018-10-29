@@ -4,65 +4,31 @@
 /////////////////ESTRUCTURA DE USUARIOS////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 
-
-
 nodoUsuario * inicLista()
 {
     return NULL;
 }
 
-nodoUsuario * recorreListaUsuarios(nodoUsuario * LDL)
+void recorreListaUsuarios(nodoUsuario * LDL)
 {
-    printf("fff");
     if(LDL)
     {
-        printf("fff");
-        muestraNodoUsuario(LDL);
-        printf("fff");
+        muestraUsuario(LDL->usr);
         recorreListaUsuarios(LDL->sig);
     }
-}
-
-void muestraNodoUsuario(nodoUsuario * usuario)
-{
-    char tipoUser[10], estado[10];
-    printf("--------------------------------------\n");
-    printf("ID: %d\n", usuario->usr.idUsuario);
-    printf("Nombre: %s\n", usuario->usr.nombreUsuario);
-    printf("Genero: %C\n", usuario->usr.genero);
-    printf("Pais: %s\n", usuario->usr.pais);
-    printf("A%co: %d\n",164, usuario->usr.anioNacimiento);
-    if(usuario->usr.admin==0)
-        strcpy(tipoUser, "Usuario");
-    else
-        strcpy(tipoUser, "Admin");
-    printf("Tipo de usuario: %s\n", tipoUser);
-    if(usuario->usr.eliminado==1)
-        strcpy(estado,"Inactivo");
-    else
-        strcpy(estado, "Activo");
-    printf("Estado: %s\n", estado);
-    printf("--------------------------------------\n");
 }
 
 nodoUsuario * pasarDeArchivoUsuariosToLDL(char archivo[], nodoUsuario * LDL)///PASA USUARIOS DEL ARCHIVO A LA LISTA
 {
     FILE *usuarios;
     stUsuario pasaUsuario;
-    nodoUsuario * usuarioAgregar;
     usuarios=fopen(archivo, "rb");
-    if((usuarios=fopen(archivo, "rb"))!=NULL)
-    {
         while(!feof(usuarios))
         {
             fread(&pasaUsuario, sizeof(stUsuario), 1, usuarios);
             if(!feof(usuarios))
-            {
-                usuarioAgregar=creaNodoUsuario(pasaUsuario);
-                agregarAlFinalUsuario(usuarioAgregar, LDL);
-            }
+                LDL=agregarAlFinalUsuario(creaNodoUsuario(pasaUsuario), LDL);
         }
-    }
 
     fclose(usuarios);
     return LDL;
@@ -108,7 +74,7 @@ nodoUsuario * agregarUsuario(nodoUsuario * LDL)///AGREGA UN USUARIO A LA LISTA
 {
     nodoUsuario * nuevoNodo;
     stUsuario usuarioNuevo;
-    usuarioNuevo=crearUsuario(LDL);
+    usuarioNuevo=crearUsuario(LDL);///SE PASA LA LISTA, DEBIDO A QUE SE NECESITA PARA RECUPERAR EL ÚLTIMO
     nuevoNodo=creaNodoUsuario(usuarioNuevo);
     LDL=agregarAlFinalUsuario(nuevoNodo, LDL);
     return LDL;
@@ -118,7 +84,7 @@ nodoUsuario * buscarUltimoNodoUsuario(nodoUsuario * LDL)///RETORNA EL ÚLTIMO ID 
 {
     nodoUsuario * aux=LDL;
     if(aux)
-        while(aux->sig)
+        while(aux->sig!=NULL)
         {
             aux=aux->sig;
         }
@@ -131,7 +97,7 @@ int devuelveUltimoIDUsuario(nodoUsuario * LDL)///RETORNA EL ÚLTIMO USUARIO DE LA
     nodoUsuario * aux=LDL;
     if(aux)
     {
-        while(aux)
+        while(aux->sig)
         {
             aux=aux->sig;
         }
@@ -144,7 +110,7 @@ int devuelveUltimoIDUsuario(nodoUsuario * LDL)///RETORNA EL ÚLTIMO USUARIO DE LA
 /////////////////ESTRUCTURA DE USUARIOS////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 
-stUsuario crearUsuario(nodoUsuario * LDL)///CREA UN USUARIO
+stUsuario crearUsuario(nodoUsuario * LDL)///CREA UN TIPO STRUCT USUARIO
 {
     stUsuario usuarioVacio;
     int passOK, existe;
@@ -193,6 +159,71 @@ int validaLongitudPassword(char password[])///VERIFICA QUE EL PASSWORD TENGA 10 
     else
         si=0;
     return si;
+}
+
+void muestraUsuario(stUsuario usuario)
+{
+    printf("--------------------------------------\n");
+    printf("ID: %d\n", usuario.idUsuario);
+    printf("Nombre: %s\n", usuario.nombreUsuario);
+    printf("Genero: %C\n", usuario.genero);
+    printf("Pais: %s\n", usuario.pais);
+    printf("A%co: %d\n",164, usuario.anioNacimiento);
+    if(usuario.admin==0)
+        printf("Tipo: Usuario\n");
+    else
+        printf("Tipo: Admin\n");
+    if(usuario.eliminado==1)
+        printf("Estado: Inactivo\n");
+    else
+        printf("Estado: Activo\n");
+    printf("--------------------------------------\n");
+}
+
+///////////////////////////////////////////////////////////////////////////
+/////////////////FUNCIONES CON ARCHIVOS////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+
+stUsuario cargaArchivoUsuarios(char archivoUsuarios[], nodoUsuario * LDL)
+{
+    stUsuario nuevoUsuario;
+    nuevoUsuario=crearUsuario(LDL);
+    escribeUsuarioEnArchivo(archivoUsuarios, nuevoUsuario);
+    return nuevoUsuario;
+}
+
+void escribeUsuarioEnArchivo(char archivoUsuarios[], stUsuario usuarioAEscribir)
+{
+    FILE *usuarios;
+    usuarios=fopen(archivoUsuarios, "ab");
+    fwrite(&usuarioAEscribir, sizeof(stUsuario), 1, usuarios);
+    fclose(usuarios);
+}
+
+void muestraArchivo(char arch[])
+{
+    FILE *usuarios;
+    stUsuario aux;
+    usuarios=fopen(arch, "rb");
+    while(!feof(usuarios))
+    {
+        fread(&aux, sizeof(stUsuario), 1, usuarios);
+        if(!feof(usuarios))
+        {
+            muestraUsuario(aux);
+        }
+    }
+}
+
+void persisteUsuariosArchivo(char archivoUsuarios[], nodoUsuario * LDL)///GUARDA LA LISTA EN EL ARCHIVO.
+{
+    FILE *usuarios;
+    stUsuario pasaUsuario;
+    usuarios=fopen(archivo, "wb");
+
+
+    fclose(usuarios);
+    return LDL;
 }
 
 ///////////////////////////////////////////////////////////////////////////
