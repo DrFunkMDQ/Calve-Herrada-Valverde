@@ -27,10 +27,10 @@ void escribeUsuarioEnArchivo(char archivoUsuarios[], stUsuario usuarioAEscribir)
 /////////////////FUNCIONES CON ARCHIVOS////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 
-stUsuario cargaArchivoUsuarios(char archivoUsuarios[], nodoUsuario * LDL)
-void escribeUsuarioEnArchivo(char archivoUsuarios[], stUsuario usuarioAEscribir)
-void muestraArchivo(char arch[])
-void persisteUsuariosArchivo(char archivoUsuarios[], nodoUsuario * LDL),
+stUsuario cargaArchivoUsuarios(char archivoUsuarios[], nodoUsuario * LDL);
+void escribeUsuarioEnArchivo(char archivoUsuarios[], stUsuario usuarioAEscribir);
+void muestraArchivo(char arch[]);
+void persisteUsuariosArchivo(char archivoUsuarios[], nodoUsuario * LDL);
 ///////////////////////////////////////////////////////////////////////////
 /////////////////ENCRIPTACIÓN DE CONTRASEÑAS///////////////////////////////
 ///////////////////////////////////////////////////////////////////////////

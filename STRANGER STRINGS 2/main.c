@@ -10,9 +10,10 @@ int main()
     nodoUsuario * ListaDeListas;
     ListaDeListas=inicLista();
     //cargaArchivoUsuarios(archUsuarios, ListaDeListas);
-    //muestraArchivo(archUsuarios);
-    ListaDeListas=pasarDeArchivoUsuariosToLDL(archUsuarios, ListaDeListas);
-    ListaDeListas=agregarUsuario(ListaDeListas);
-    recorreListaUsuarios(ListaDeListas);
+    muestraArchivo(archUsuarios);
+    //ListaDeListas=pasarDeArchivoUsuariosToLDL(archUsuarios, ListaDeListas);
+    //ListaDeListas=agregarUsuario(ListaDeListas);
+    //recorreListaUsuarios(ListaDeListas);
+    //persisteUsuariosArchivo(archUsuarios, ListaDeListas);
     return 0;
 }

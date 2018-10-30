@@ -1,7 +1,7 @@
 #include "Usuarios.H"
 
 ///////////////////////////////////////////////////////////////////////////
-/////////////////ESTRUCTURA DE USUARIOS////////////////////////////////////
+/////////////////LISTA DE USUARIOS/////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 
 nodoUsuario * inicLista()
@@ -93,7 +93,7 @@ nodoUsuario * buscarUltimoNodoUsuario(nodoUsuario * LDL)///RETORNA EL ÚLTIMO ID 
 
 int devuelveUltimoIDUsuario(nodoUsuario * LDL)///RETORNA EL ÚLTIMO USUARIO DE LA LISTA.
 {
-    int ultimoID=1;
+    int ultimoID=0;
     nodoUsuario * aux=LDL;
     if(aux)
     {
@@ -104,6 +104,15 @@ int devuelveUltimoIDUsuario(nodoUsuario * LDL)///RETORNA EL ÚLTIMO USUARIO DE LA
         ultimoID=aux->usr.idUsuario;
     }
     return ultimoID;
+}
+
+nodoUsuario * eliminaNodo(nodoUsuario * LDL)///ELIMINA EL NODO Y DA LA REFERENCIA AL SIGUIENTE
+{
+    nodoUsuario * aux;
+    aux=LDL;
+    LDL=LDL->sig;
+    free(aux);
+    return LDL;
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -219,9 +228,13 @@ void persisteUsuariosArchivo(char archivoUsuarios[], nodoUsuario * LDL)///GUARDA
 {
     FILE *usuarios;
     stUsuario pasaUsuario;
-    usuarios=fopen(archivo, "wb");
-
-
+    usuarios=fopen(archivoUsuarios, "wb");
+    while(LDL)
+        {
+            pasaUsuario=LDL->usr;
+            fwrite(&pasaUsuario, sizeof(stUsuario), 1, usuarios);
+            LDL=eliminaNodo(LDL);
+        }
     fclose(usuarios);
     return LDL;
 }
