@@ -16,7 +16,7 @@ void preorder(nodoArbol *arbol);    //Muestra preorder todo el arbol
 void inorder(nodoArbol *arbol);     //Muestra inorder todo el arbol
 void postorder(nodoArbol *arbol);   //Muestra postorder todo el arbol
 nodoArbol *borrarNodoArbolPelicula(nodoArbol *arbol, int id);
-nodoArbol *insertarNuevoArbol(nodoArbol *arbol, nodoArbol *nuevoArbol); //Inserta una nueva pelicula en el arbol
+nodoArbol *insertarNuevoArbol(nodoArbol *arbolDestino, nodoArbol *nuevoArbol); //Inserta una nueva pelicula en el arbol
 nodoArbol *nodoMasDerecho(nodoArbol *arbol); //Busca y retorna el nodo mas derecho
 nodoArbol *nodoMasIzquierdo(nodoArbol *arbol);
 nodoArbol *borrarArbol(nodoArbol *arbol);   //Borra todo el arbol
@@ -31,4 +31,5 @@ int ultimoIDPelicula(nodoArbol *arbolActio, nodoArbol *arbolEliminado);
 int existenciaArbolPeliculaNombre(nodoArbol *arbol, char nombre[]);
 void modificarNodoArbol(nodoArbol *arbolActivo, nodoArbol *arbolEliminado);
 int existenciaPeliculaNombre(nodoArbol *arbolActivo, nodoArbol *arbolEliminado, char nombre[]);
-
+void altaBajaPelicula(nodoArbol **arbolActivo, nodoArbol **arbolEliminado);
+nodoArbol *pasarNodoOtroArbol(nodoArbol *arbol1, nodoArbol **arbol2, int id);

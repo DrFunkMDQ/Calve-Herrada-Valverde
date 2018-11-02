@@ -186,24 +186,24 @@ nodoArbol *creaYcargaPeliculaAlArbol(nodoArbol *arbolActivo, nodoArbol *arbolEli
     return arbolActivo;
 }
 
-nodoArbol *insertarNuevoArbol(nodoArbol *arbolActivo, nodoArbol *nuevoArbol)
+nodoArbol *insertarNuevoArbol(nodoArbol *arbolDestino, nodoArbol *nuevoArbol)
 {
 
 
-    if(arbolActivo)
+    if(arbolDestino)
     {
-        if(nuevoArbol->pelicula.idPelicula > arbolActivo->pelicula.idPelicula)
+        if(nuevoArbol->pelicula.idPelicula > arbolDestino->pelicula.idPelicula)
         {
-            arbolActivo->der = insertarNuevoArbol(arbolActivo->der, nuevoArbol);
+            arbolDestino->der = insertarNuevoArbol(arbolDestino->der, nuevoArbol);
         }
         else
         {
-            arbolActivo->izq = insertarNuevoArbol(arbolActivo->izq, nuevoArbol);
+            arbolDestino->izq = insertarNuevoArbol(arbolDestino->izq, nuevoArbol);
         }
     }
     else
-        arbolActivo = nuevoArbol;
-    return arbolActivo;
+        arbolDestino = nuevoArbol;
+    return arbolDestino;
 }
 
 nodoArbol *buscarPeliID(nodoArbol *arbol, int id) //Busca y retorna una pelicula por 'ID'
@@ -223,198 +223,6 @@ nodoArbol *buscarPeliID(nodoArbol *arbol, int id) //Busca y retorna una pelicula
         }
     }
     return aux;
-}
-
-nodoArbol *modificarPeliNombre(nodoArbol *arbol, char nombre[]) //Busca y retorna una pelicula por 'NOMBRE'
-{
-    int cambio = 0;
-    if(arbol)
-    {
-        if(strcmpi(arbol->pelicula.nombrePelicula, nombre) == 0)
-        {
-
-            int opcion;
-            int numero;
-            char nombre[60];
-            char control;
-            mostrarPelicula(arbol->pelicula);
-            printf("Que campo desea modificar?\n");
-            printf("1_NOMBRE\n2_DIRECTOR\n3_GENERO\n4_PAIS\n5_ANIO\n6_VALORACION\n7_PM\n8_ELIMINADO\n9_URL\n");
-            scanf("%d", &opcion);
-            switch(opcion)
-            {
-            case 1:
-                do
-                {
-                    printf("Ingrese Nuevo NOMBRE\n");
-                    fflush(stdin);
-                    gets(nombre);
-                    printf("El NOMBRE ingresado es :\t'%s'\nEs correcto?s/n\n", nombre);
-                    fflush(stdin);
-                    scanf("%c", &control);
-                }
-                while(control != 's');
-                if(!buscarPeliNombre(arbol, nombre))
-                {
-                    strcpy(arbol->pelicula.nombrePelicula, nombre);
-                    cambio = 1;
-                }
-                else
-                    printf("Ese nombre de pelicula ya existe\n");
-                break;
-            case 2:
-                do
-                {
-                    printf("Ingrese nuevo DIRECTOR\n");
-                    fflush(stdin);
-                    gets(nombre);
-                    printf("El DIRECTOR ingresado es :\t'%s'\nEs correcto?s/n\n", nombre);
-                    fflush(stdin);
-                    scanf("%c", &control);
-                }
-                while(control != 's');
-                strcpy(arbol->pelicula.director, nombre);
-                cambio = 1;
-                break;
-            case 3:
-                do
-                {
-                    printf("Ingrese nuevo GENERO\n");
-                    fflush(stdin);
-                    gets(nombre);
-                    printf("El GENERO ingresado es :\t'%s'\nEs correcto?s/n\n", nombre);
-                    fflush(stdin);
-                    scanf("%c", &control);
-                }
-                while(control != 's');
-                strcpy(arbol->pelicula.genero, nombre);
-                cambio = 1;
-                break;
-            case 4:
-                do
-                {
-                    printf("Ingrese nuevo PAIS\n");
-                    fflush(stdin);
-                    gets(nombre);
-                    printf("El PAIS ingresado es :\t'%s'\nEs correcto?s/n\n", nombre);
-                    fflush(stdin);
-                    scanf("%c", &control);
-                }
-                while(control != 's');
-                strcpy(arbol->pelicula.pais, nombre);
-                cambio = 1;
-                break;
-            case 5:
-                do
-                {
-                    do
-                    {
-                        fflush(stdin);
-                        printf("Ingrese nuevo ANIO\n");
-                        scanf("%d", &numero);
-                        if(numero < 1895 || numero > 2018)
-                        {
-                            system("cls");
-                            printf("El anio %d no es un anio valido\n", numero);
-                        }
-                    }
-                    while(numero < 1895 || numero > 2018);
-                    printf("El ANIO ingresado es :\t'%d'\nEs correcto?s/n\n", numero);
-                    fflush(stdin);
-                    scanf("%c", &control);
-                }
-                while(control != 's');
-                arbol->pelicula.anio = numero;
-                cambio = 1;
-                break;
-            case 6:
-                do
-                {
-                    fflush(stdin);
-                    printf("Ingrese la nueva VALORACION\n");
-                    scanf("%d", &numero);
-                    if(numero < 1 || numero > 5)
-                        printf("No es una valoracion valida\n");
-                }
-                while(numero < 1 || numero > 5);
-                printf("la VALORACION ingresada es :\t'%d'\nEs correcto?s/n\n", numero);
-                fflush(stdin);
-                scanf("%c", &control);
-                while(control != 's');
-                arbol->pelicula.valoracion = numero;
-                cambio = 1;
-                break;
-            case 7:
-                do
-                {
-                    fflush(stdin);
-                    printf("Ingrese nuevo PM\n0: ATP\n13: +13\n16: +16\n18: +18\n");
-                    scanf("%d", &numero);
-                    if(numero != 0 && numero != 13 && numero != 16 && numero != 18)
-                        printf("No es un PM valido\n");
-                }
-                while(numero != 0 && numero != 13 && numero != 16 && numero != 18);
-                arbol->pelicula.pm = numero;
-                cambio = 1;
-                break;
-            case 8:
-                if(arbol->pelicula.eliminado == 1)
-                {
-                    printf("Desea dar de alta esta pelicula?\n");
-                    fflush(stdin);
-                    scanf("%c", &control);
-                    if(control == 's')
-                    {
-                        arbol->pelicula.eliminado = 0;
-                        cambio = 1;
-                    }
-                }
-                else
-                {
-                    printf("Desea dar de baja esta pelicula?\n");
-                    fflush(stdin);
-                    scanf("%c", &control);
-                    if(control == 's')
-                    {
-                        arbol->pelicula.eliminado = 1;
-                        cambio = 1;
-                    }
-                }
-                break;
-            case 9:
-                printf("Ingrese el nuevo URL\n");
-                fflush(stdin);
-                gets(nombre);
-                printf("El URL ingresado es:\n%s\nEs correcto?\n", nombre);
-                fflush(stdin);
-                scanf("%c", &control);
-                if(control == 's')
-                {
-                    strcpy(arbol->pelicula.url, nombre);
-                    cambio = 1;
-                }
-                else
-                    printf("No se modifico el URL\n");
-                break;
-            }
-        }
-        else
-        {
-
-            arbol->izq = buscarPeliNombre(arbol->izq, nombre);
-            arbol->der = buscarPeliNombre(arbol->der, nombre);
-        }
-    }
-    else if(!arbol)
-    {
-        printf("No se encontro la pelicula deseada\n");
-    }
-    if(cambio == 1)
-    {
-        system("cls");
-        printf("Los cambios se modificaron correctamente\n");
-    }
-    return arbol;
 }
 
 //retorna 1 o 0 dependiendo si esta o no.
@@ -575,9 +383,9 @@ void modificarNodoArbol(nodoArbol *arbolActivo, nodoArbol *arbolEliminado)
 
 void insertarDirector(char *director)
 {
-        printf("Ingrese director\n");
-        fflush(stdin);
-        gets(director);
+    printf("Ingrese director\n");
+    fflush(stdin);
+    gets(director);
 }
 
 void insertarPM(int *pm)
@@ -596,9 +404,10 @@ void insertarPM(int *pm)
     *pm = numero;
 }
 
-void insertarValoracion(int *valoracion){
-int numero;
-do
+void insertarValoracion(int *valoracion)
+{
+    int numero;
+    do
     {
         printf("Ingrese valoracion\n");
         fflush(stdin);
@@ -607,32 +416,35 @@ do
             printf("No es una valoracion valida\n");
     }
     while(numero < 1 || numero > 5);
-*valoracion = numero;
+    *valoracion = numero;
 }
 
-void insertarAnio(int *anio){
-int num;
-do
-        {
-            printf("Ingrese anio\n");
-            fflush(stdin);
-            scanf("%d", &num);
-            if(num > 2018 || num < 1895)
-                printf("El anio %d es invalido, por favor ingrese un anio valido.\n", num);
-        }
-        while(num > 2018 || num < 1895);
+void insertarAnio(int *anio)
+{
+    int num;
+    do
+    {
+        printf("Ingrese anio\n");
+        fflush(stdin);
+        scanf("%d", &num);
+        if(num > 2018 || num < 1895)
+            printf("El anio %d es invalido, por favor ingrese un anio valido.\n", num);
+    }
+    while(num > 2018 || num < 1895);
 
 
-       *anio = num;
+    *anio = num;
 }
 
-void insertarGenero(char *genero){
+void insertarGenero(char *genero)
+{
 
     int topic;
 //Se utilizara como fila a copiarse de la matriz
     char genderFilm[9][11] = {{"DRAMA"}, {"TERROR"}, {"ACCION"}, {"CS FICCION"},
-        {"SUSPENSO"}, {"ROMANCE"}, {"TRILLER"}, {"FANTASIA"}, {"COMEDIA"}};
-        printf("Seleccione genero\n");
+        {"SUSPENSO"}, {"ROMANCE"}, {"TRILLER"}, {"FANTASIA"}, {"COMEDIA"}
+    };
+    printf("Seleccione genero\n");
     do
     {
         //Matriz de generos de peliculas
@@ -652,12 +464,68 @@ void insertarGenero(char *genero){
             system("cls");
             printf("La opcion no es correcta\n");
         }
-    }while(topic < 1 || topic > 9);
-strcpy(genero, genderFilm[topic-1]);
+    }
+    while(topic < 1 || topic > 9);
+    strcpy(genero, genderFilm[topic-1]);
 }
 
-void insertarPais(char *pais){
-printf("Ingrese Pais\n");
-fflush(stdin);
-gets(pais);
+void insertarPais(char *pais)
+{
+    printf("Ingrese Pais\n");
+    fflush(stdin);
+    gets(pais);
+}
+
+nodoArbol *pasarNodoOtroArbol(nodoArbol *arbol1, nodoArbol **arbol2, int id)
+{
+    nodoArbol *aux = buscarPeliID(arbol1, id);
+    if(aux->pelicula.eliminado == 0)
+        aux->pelicula.eliminado = 1;
+    else
+        aux->pelicula.eliminado = 0;
+    stPelicula newPeli = aux->pelicula;
+    *arbol2 = insertarNuevoArbol(*arbol2, crearNodoArbol(newPeli));
+    arbol1 = borrarNodoArbolPelicula(arbol1, id);
+    return arbol1;
+}
+
+void altaBajaPelicula(nodoArbol **arbolActivo, nodoArbol **arbolEliminado)
+{
+    int id;
+    char control;
+    int existe;
+    nodoArbol *aux = NULL;
+    printf("Que pelicula desea dar de baja o alta ?\nIngrese id:");
+    scanf("%d", &id);
+    printf("\n");
+    if(id <= ultimoIDPelicula(*arbolActivo, *arbolEliminado))
+    {
+        aux = buscarPeliID(*arbolActivo, id);
+        printf("Su pelicula seleccionada es: %s\n", aux->pelicula.nombrePelicula);
+        if(aux)
+        {
+            printf("Esta pelicula esta dada de alta, desea darla de baja?s/n\n");
+            fflush(stdin);
+            scanf("%c", &control);
+            if(control == 's')
+            {
+                *arbolActivo = pasarNodoOtroArbol(*arbolActivo, arbolEliminado, id);
+                printf("Su pelicula se ah dado de baja con exito\n");
+            }
+        }
+        else
+        {
+            aux = buscarPeliID(*arbolEliminado, id);
+            printf("Esta pelicula esta dada de baja, desea darla de alta?\n");
+            fflush(stdin);
+            scanf("%c", &control);
+            if(control == 's')
+            {
+                *arbolEliminado = pasarNodoOtroArbol(*arbolEliminado, arbolActivo, id);
+                printf("Su pelicula se ah dado de alta con exito\n");
+            }
+        }
+    }
+    else
+        printf("No es una pelicula valida\n");
 }
