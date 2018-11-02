@@ -33,3 +33,5 @@ void modificarNodoArbol(nodoArbol *arbolActivo, nodoArbol *arbolEliminado);
 int existenciaPeliculaNombre(nodoArbol *arbolActivo, nodoArbol *arbolEliminado, char nombre[]);
 void altaBajaPelicula(nodoArbol **arbolActivo, nodoArbol **arbolEliminado);
 nodoArbol *pasarNodoOtroArbol(nodoArbol *arbol1, nodoArbol **arbol2, int id);
+/////////////////////// ARCHIVOS
+

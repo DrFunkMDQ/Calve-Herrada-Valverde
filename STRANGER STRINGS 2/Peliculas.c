@@ -529,3 +529,25 @@ void altaBajaPelicula(nodoArbol **arbolActivo, nodoArbol **arbolEliminado)
     else
         printf("No es una pelicula valida\n");
 }
+
+void persistirPeliculas(nodoArbol *arbol, FILE *archi){
+stPelicula pelicula;
+if(arbol){
+        pelicula = arbol->pelicula;
+    fwrite(&pelicula, 1, sizeof(stPelicula), archi);
+persistirPeliculas(arbol->izq, archi);
+persistirPeliculas(arbol->der, archi);
+}
+}
+
+void persistirTodo(nodoArbol *arbolActivo, nodoArbol *arbolEliminado){
+FILE *archi;
+if(archi = fopen("peliculas.bin", "wb")){
+persistirPeliculas(arbolActivo, archi);
+persistirPeliculas(arbolEliminado, archi);
+if(fclose(archi) == -1)
+    printf("No pudo cerrarse el archivo\n");
+}else{
+printf("El archivo no pudo abrirse correctamente\n");
+}
+}
