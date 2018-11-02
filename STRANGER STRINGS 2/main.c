@@ -1,8 +1,17 @@
-#include "PelisVistas.H"
+#include "structs.h"
 
 
 int main()
 {
-    printf("Hello world!\n");
+    int i;
+    nodoArbol *arbolActivo = inicArbol();
+    nodoArbol *arbolEliminado = inicArbol();
+
+    arbolActivo = creaYcargaPeliculaAlArbol(arbolActivo, arbolEliminado);
+
+preorder(arbolActivo);
+//system("cls");
+//modificarNodoArbol(arbolActivo, arbolEliminado);
+//preorder(arbolActivo);
     return 0;
 }

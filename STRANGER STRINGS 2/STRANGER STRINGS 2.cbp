@@ -31,6 +31,10 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="Peliculas.H" />
+		<Unit filename="Peliculas.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="PelisVistas.H" />
 		<Unit filename="PelisVistas.c">
 			<Option compilerVar="CC" />
