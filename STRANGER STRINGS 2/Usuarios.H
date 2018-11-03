@@ -8,7 +8,7 @@
 nodoUsuario * inicLista();///INICIALIZA LA LISTA;
 void recorreListaUsuarios(nodoUsuario * LDL);///RECORRE Y MUESTRA LA LISTA (UNICAMENTE USUARIOS)
 void muestraNodoUsuario(nodoUsuario * usuario);///MUESTRA UN NODO INDIVIDUAL.
-nodoUsuario * pasarDeArchivoUsuariosToLDL(char archivo[], nodoUsuario * LDL);///PASA USUARIOS DEL ARCHIVO A LA LISTA
+void pasarDeArchivoUsuariosToLDL(char archivo[], nodoUsuario ** listaAlta, nodoUsuario ** listaBaja);///PASA USUARIOS DEL ARCHIVO A LA LISTA
 nodoUsuario * creaNodoUsuario(stUsuario usuarioNuevo);///CREA UN NODO DE USUARIO
 int consultaExistenciaUsuario(nodoUsuario * LDL, char nombre[]);///VERIFICA EXISTENCIA DE USUARIO EN LA LISTA. RETORNA 1 SI EXISTE.
 nodoUsuario * agregarAlFinalUsuario(nodoUsuario * nuevoUsr, nodoUsuario * LDL);
@@ -20,6 +20,7 @@ int devuelveUltimoIDUsuario(nodoUsuario * LDL);///RETORNA EL ÚLTIMO USUARIO DE L
 ///////////////////////////////////////////////////////////////////////////
 
 stUsuario crearUsuario(nodoUsuario * LDL);///CREA UN USUARIO
+stUsuario modificaUsuario(stUsuario usuarioAModificar, int opcion);
 int validaLongitudPassword(char password[]);///VERIFICA QUE EL PASSWORD TENGA 10 CARACTERES.
 stUsuario cargaArchivoUsuarios(char archivoUsuarios[], nodoUsuario * LDL);
 void escribeUsuarioEnArchivo(char archivoUsuarios[], stUsuario usuarioAEscribir);
@@ -30,7 +31,7 @@ void escribeUsuarioEnArchivo(char archivoUsuarios[], stUsuario usuarioAEscribir)
 stUsuario cargaArchivoUsuarios(char archivoUsuarios[], nodoUsuario * LDL);
 void escribeUsuarioEnArchivo(char archivoUsuarios[], stUsuario usuarioAEscribir);
 void muestraArchivo(char arch[]);
-void persisteUsuariosArchivo(char archivoUsuarios[], nodoUsuario * LDL);
+void persisteUsuariosArchivo(char archivoUsuarios[], nodoUsuario * listaAlta, nodoUsuario * listaBaja);
 ///////////////////////////////////////////////////////////////////////////
 /////////////////ENCRIPTACIÓN DE CONTRASEÑAS///////////////////////////////
 ///////////////////////////////////////////////////////////////////////////

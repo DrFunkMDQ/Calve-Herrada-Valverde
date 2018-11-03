@@ -7,13 +7,15 @@ const char archUsuarios[15]="usuarios.dat";
 int main()
 {
     printf("Hello world!\n");
-    nodoUsuario * ListaDeListas;
-    ListaDeListas=inicLista();
+    nodoUsuario * listaAltas;
+    nodoUsuario * listaBajas;
+    listaAltas=inicLista();
+    listaBajas=inicLista();
     //cargaArchivoUsuarios(archUsuarios, ListaDeListas);
-    muestraArchivo(archUsuarios);
-    //ListaDeListas=pasarDeArchivoUsuariosToLDL(archUsuarios, ListaDeListas);
+    //muestraArchivo(archUsuarios);
+    pasarDeArchivoUsuariosToLDL(archUsuarios, &listaAltas, &listaBajas);
     //ListaDeListas=agregarUsuario(ListaDeListas);
-    //recorreListaUsuarios(ListaDeListas);
+    recorreListaUsuarios(listaAltas);
     //persisteUsuariosArchivo(archUsuarios, ListaDeListas);
     return 0;
 }

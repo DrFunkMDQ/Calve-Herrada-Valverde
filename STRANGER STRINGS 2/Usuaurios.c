@@ -18,7 +18,7 @@ void recorreListaUsuarios(nodoUsuario * LDL)
     }
 }
 
-nodoUsuario * pasarDeArchivoUsuariosToLDL(char archivo[], nodoUsuario * LDL)///PASA USUARIOS DEL ARCHIVO A LA LISTA
+void pasarDeArchivoUsuariosToLDL(char archivo[], nodoUsuario ** listaAlta, nodoUsuario ** listaBaja)///PASA USUARIOS DEL ARCHIVO A LA LISTA
 {
     FILE *usuarios;
     stUsuario pasaUsuario;
@@ -27,11 +27,13 @@ nodoUsuario * pasarDeArchivoUsuariosToLDL(char archivo[], nodoUsuario * LDL)///P
         {
             fread(&pasaUsuario, sizeof(stUsuario), 1, usuarios);
             if(!feof(usuarios))
-                LDL=agregarAlFinalUsuario(creaNodoUsuario(pasaUsuario), LDL);
+                if(pasaUsuario.eliminado==0)
+                    *listaAlta=agregarAlFinalUsuario(creaNodoUsuario(pasaUsuario), *listaAlta);
+                else
+                    *listaBaja=agregarAlFinalUsuario(creaNodoUsuario(pasaUsuario), *listaBaja);
         }
 
     fclose(usuarios);
-    return LDL;
 }
 
 nodoUsuario * creaNodoUsuario(stUsuario usuarioNuevo)///CREA UN NODO DE USUARIO
@@ -115,9 +117,105 @@ nodoUsuario * eliminaNodo(nodoUsuario * LDL)///ELIMINA EL NODO Y DA LA REFERENCI
     return LDL;
 }
 
+nodoUsuario * buscaUsuarioNombre(nodoUsuario * LDL, char nombreUsuario[])
+{
+    nodoUsuario * usuarioEncontrado=NULL;
+    if(LDL)
+    {
+        if(strcmp(LDL->usr.nombreUsuario, nombreUsuario)==0)
+            usuarioEncontrado=LDL;
+        else
+            usuarioEncontrado=buscaUsuarioNombre(LDL->sig, nombreUsuario);
+    }
+    return usuarioEncontrado;
+}
+
+nodoUsuario * buscaUsuarioID(nodoUsuario * LDL, int ID)
+{
+    nodoUsuario * usuarioEncontrado=NULL;
+    if(LDL)
+    {
+        if(LDL->usr.idUsuario==ID)
+            usuarioEncontrado=LDL;
+        else
+            usuarioEncontrado=buscaUsuarioID(LDL->sig, ID);
+    }
+    return usuarioEncontrado;
+}
+
+void cambiaEstadoUsuario(nodoUsuario *LDL)
+{
+    if(LDL->usr.eliminado==1)
+        LDL->usr.eliminado=0;
+    else
+        LDL->usr.eliminado=1;
+}
+
+
 ///////////////////////////////////////////////////////////////////////////
 /////////////////ESTRUCTURA DE USUARIOS////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
+
+void modificaDatosPersonales(nodoUsuario * LDL)
+{
+    int opcion;
+    printf("Ingrese el numero de opción del campo que desea editar\n");
+    printf("[1]Nombre: %s\n", LDL->usr.nombreUsuario);
+    printf("[2]Genero: %c\n", LDL->usr.genero);
+    printf("[3]Pais: %s\n", LDL->usr.pais);
+    printf("[4]A%co de nacimiento: %d\n", 164, LDL->usr.anioNacimiento);
+    printf("[5]Cambiar contraseña\n");
+    scanf("%d", &opcion);
+    while ((opcion<1) && (opcion>6))
+    {
+        printf("Ingrese una opción v%clida.\n",160);
+        scanf("%d", &opcion);
+    }
+    LDL->usr=modificaUsuario(LDL->usr, opcion);///ENVÍA OPCION Y POSICION, EDITA EL CAMPO INDICADO POR USUARIO.
+}
+
+stUsuario modificaUsuario(stUsuario usuarioAModificar, int opcion)
+{
+    char password[11];
+    int passOK;
+    switch(opcion)
+    {
+    case 1:
+        printf("Ingrese el nuevo nombre de usuario:\n");
+        fflush(stdin);
+        gets(usuarioAModificar.nombreUsuario);
+        break;
+    case 2:
+        printf("Ingrese el nuevo genero:\n");
+        fflush(stdin);
+        scanf("%c", &usuarioAModificar.genero);
+        break;
+    case 3:
+        printf("Ingrese el nuevo pa%cs de nacimiento:\n", 161);
+        fflush(stdin);
+        gets(usuarioAModificar.pais);
+        break;
+    case 4:
+        printf("Ingrese el nuevo a%co de nacimiento:\n", 164);
+        scanf("%d", &usuarioAModificar.anioNacimiento);
+        break;
+    case 5:
+        printf("Ingrese la contrase%ca (DEBE TENER 10 CARACTERES):\n", 164);
+        fflush(stdin);
+        gets(password);
+        passOK=validaLongitudPassword(password);
+        while(passOK==0)
+        {
+            printf("La contrase%ca debe tener 10 caracteres, intente nuevamente. \n",164);
+            fflush(stdin);
+            gets(password);
+            passOK=validaLongitudPassword(password);
+        }
+        contraseniaUsuario(password, usuarioAModificar.pass);
+        break;
+    }
+    return usuarioAModificar;
+}
 
 stUsuario crearUsuario(nodoUsuario * LDL)///CREA UN TIPO STRUCT USUARIO
 {
@@ -224,19 +322,24 @@ void muestraArchivo(char arch[])
     }
 }
 
-void persisteUsuariosArchivo(char archivoUsuarios[], nodoUsuario * LDL)///GUARDA LA LISTA EN EL ARCHIVO.
+void persisteUsuariosArchivo(char archivoUsuarios[], nodoUsuario * listaAlta, nodoUsuario * listaBaja)///GUARDA LA LISTA EN EL ARCHIVO.
 {
     FILE *usuarios;
     stUsuario pasaUsuario;
     usuarios=fopen(archivoUsuarios, "wb");
-    while(LDL)
+    while(listaAlta)
         {
-            pasaUsuario=LDL->usr;
+            pasaUsuario=listaAlta->usr;
             fwrite(&pasaUsuario, sizeof(stUsuario), 1, usuarios);
-            LDL=eliminaNodo(LDL);
+            listaAlta=eliminaNodo(listaAlta);
+        }
+    while(listaBaja)
+        {
+            pasaUsuario=listaBaja->usr;
+            fwrite(&pasaUsuario, sizeof(stUsuario), 1, usuarios);
+            listaBaja=eliminaNodo(listaBaja);
         }
     fclose(usuarios);
-    return LDL;
 }
 
 ///////////////////////////////////////////////////////////////////////////
