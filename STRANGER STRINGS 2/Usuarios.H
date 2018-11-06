@@ -10,28 +10,29 @@ void recorreListaUsuarios(nodoUsuario * LDL);///RECORRE Y MUESTRA LA LISTA (UNIC
 void muestraNodoUsuario(nodoUsuario * usuario);///MUESTRA UN NODO INDIVIDUAL.
 void pasarDeArchivoUsuariosToLDL(char archivo[], nodoUsuario ** listaAlta, nodoUsuario ** listaBaja);///PASA USUARIOS DEL ARCHIVO A LA LISTA
 nodoUsuario * creaNodoUsuario(stUsuario usuarioNuevo);///CREA UN NODO DE USUARIO
-int consultaExistenciaUsuario(nodoUsuario * LDL, char nombre[]);///VERIFICA EXISTENCIA DE USUARIO EN LA LISTA. RETORNA 1 SI EXISTE.
+int consultaExistenciaUsuario(nodoUsuario * listaAlta, nodoUsuario * listaBaja, char nombre[]);///VERIFICA EXISTENCIA DE USUARIO EN LA LISTA. RETORNA 1 SI EXISTE.
 nodoUsuario * agregarAlFinalUsuario(nodoUsuario * nuevoUsr, nodoUsuario * LDL);
 nodoUsuario * agregarUsuario(nodoUsuario * LDL);///AGREGA UN USUARIO A LA LISTA
 nodoUsuario * buscarUltimoNodoUsuario(nodoUsuario * LDL);///RETORNA EL ÚLTIMO ID DE USUARIO DE LA LISTA
-int devuelveUltimoIDUsuario(nodoUsuario * LDL);///RETORNA EL ÚLTIMO USUARIO DE LA LISTA.
+int devuelveUltimoIDUsuario(nodoUsuario * listaAlta, nodoUsuario * listaBaja);///RETORNA EL ÚLTIMO USUARIO DE LA LISTA.
+nodoUsuario * agregaUsuarioEnOrden(nodoUsuario *LDL, nodoUsuario * nuevoNodo);
 ///////////////////////////////////////////////////////////////////////////
 /////////////////ESTRUCTURA DE USUARIOS////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 
-stUsuario crearUsuario(nodoUsuario * LDL);///CREA UN USUARIO
+stUsuario crearUsuario(nodoUsuario * listaAlta, nodoUsuario * listaBaja);///CREA UN USUARIO
 stUsuario modificaUsuario(stUsuario usuarioAModificar, int opcion);
 int validaLongitudPassword(char password[]);///VERIFICA QUE EL PASSWORD TENGA 10 CARACTERES.
-stUsuario cargaArchivoUsuarios(char archivoUsuarios[], nodoUsuario * LDL);
+stUsuario cargaArchivoUsuarios(char archivoUsuarios[], nodoUsuario * listaAlta, nodoUsuario * listaBaja);
 void escribeUsuarioEnArchivo(char archivoUsuarios[], stUsuario usuarioAEscribir);
 ///////////////////////////////////////////////////////////////////////////
 /////////////////FUNCIONES CON ARCHIVOS////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 
-stUsuario cargaArchivoUsuarios(char archivoUsuarios[], nodoUsuario * LDL);
+stUsuario cargaArchivoUsuarios(char archivoUsuarios[], nodoUsuario * listaAlta, nodoUsuario * listaBaja);
 void escribeUsuarioEnArchivo(char archivoUsuarios[], stUsuario usuarioAEscribir);
 void muestraArchivo(char arch[]);
-void persisteUsuariosArchivo(char archivoUsuarios[], nodoUsuario * listaAlta, nodoUsuario * listaBaja);
+void persisteUsuariosArchivo(char archivoUsuarios[], nodoUsuario ** listaAlta, nodoUsuario ** listaBaja);
 ///////////////////////////////////////////////////////////////////////////
 /////////////////ENCRIPTACIÓN DE CONTRASEÑAS///////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
