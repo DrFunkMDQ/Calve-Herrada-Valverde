@@ -31,9 +31,26 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="Menu.H" />
+		<Unit filename="Menu.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Peliculas.H" />
+		<Unit filename="Peliculas.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="PelisVistas.H" />
+		<Unit filename="PelisVistas.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Usuarios.H" />
+		<Unit filename="Usuaurios.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="structs.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
