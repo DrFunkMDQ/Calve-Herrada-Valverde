@@ -529,7 +529,7 @@ void altaBajaPelicula(nodoArbol **arbolActivo, nodoArbol **arbolEliminado)
     else
         printf("No es una pelicula valida\n");
 }
-
+/////////////////////////////////////////////////// ARCHIVOS
 void persistirPeliculas(nodoArbol *arbol, FILE *archi){
 stPelicula pelicula;
 if(arbol){
@@ -550,4 +550,30 @@ if(fclose(archi) == -1)
 }else{
 printf("El archivo no pudo abrirse correctamente\n");
 }
+}
+
+void levantarPeliculas (nodoListaPelicula **listaActiva, nodoListaPelicula **listaEliminada, FILE *archi){
+stPelicula peli;
+while(!feof(archi)){
+    fread(&peli, 1, sizeof(stPelicula), archi);
+if(!feof(archi)){
+    if(peli.eliminado == 0)
+        agregarLista(listaActiva, crearNodoPelicula(peli));
+    else
+        agregarLista(listaEliminada, crearNodoPelicula(peli));
+}
+
+}
+}
+void agregarLista(nodoListaPelicula **lista, nodoListaPelicula *nuevoNodoPelicula){
+if(*lista != NULL)
+    nuevoNodoPelicula->sig = *lista;
+    *lista = nuevoNodoPelicula;
+}
+
+nodoListaPelicula *crearNodoPelicula(stPelicula peliNueva){
+nodoListaPelicula *nuevoNodo = (nodoListaPelicula*)malloc(sizeof(stPelicula));
+nuevoNodo->sig = NULL;
+nuevoNodo->pelicula = peliNueva;
+return nuevoNodo;
 }
