@@ -554,6 +554,7 @@ printf("El archivo no pudo abrirse correctamente\n");
 
 void levantarPeliculas (nodoListaPelicula **listaActiva, nodoListaPelicula **listaEliminada, FILE *archi){
 stPelicula peli;
+if(archi = fopen("peliculas.bin", "rb" != NULL)){
 while(!feof(archi)){
     fread(&peli, 1, sizeof(stPelicula), archi);
 if(!feof(archi)){
@@ -562,8 +563,13 @@ if(!feof(archi)){
     else
         agregarLista(listaEliminada, crearNodoPelicula(peli));
 }
-
 }
+if(fclose(archi) == -1){
+    printf("El archivo no pudo cerrarse correctamente\n");
+}
+}
+else
+    printf("El archivo no pudo abrirse correctamente\n");
 }
 void agregarLista(nodoListaPelicula **lista, nodoListaPelicula *nuevoNodoPelicula){
 if(*lista != NULL)
