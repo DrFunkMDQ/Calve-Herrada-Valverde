@@ -77,6 +77,7 @@ stPelicula crearPelicula(nodoArbol *arbolActivo, nodoArbol *arbolEliminado) //Cr
     insertarPM(&peliNueva.pm);                                                        //Se le ingresa PM
     peliNueva.eliminado = 0;                                                    //Se crea sin eliminar
     printf("Ingrese URL\n");
+    fflush(stdin);
     scanf("%s", &peliNueva.url);                    //Se le ingresa URL
     return peliNueva; //Retorna la pelicula
 }
@@ -552,34 +553,3 @@ printf("El archivo no pudo abrirse correctamente\n");
 }
 }
 
-void levantarPeliculas (nodoListaPelicula **listaActiva, nodoListaPelicula **listaEliminada, FILE *archi){
-stPelicula peli;
-if(archi = fopen("peliculas.bin", "rb" != NULL)){
-while(!feof(archi)){
-    fread(&peli, 1, sizeof(stPelicula), archi);
-if(!feof(archi)){
-    if(peli.eliminado == 0)
-        agregarLista(listaActiva, crearNodoPelicula(peli));
-    else
-        agregarLista(listaEliminada, crearNodoPelicula(peli));
-}
-}
-if(fclose(archi) == -1){
-    printf("El archivo no pudo cerrarse correctamente\n");
-}
-}
-else
-    printf("El archivo no pudo abrirse correctamente\n");
-}
-void agregarLista(nodoListaPelicula **lista, nodoListaPelicula *nuevoNodoPelicula){
-if(*lista != NULL)
-    nuevoNodoPelicula->sig = *lista;
-    *lista = nuevoNodoPelicula;
-}
-
-nodoListaPelicula *crearNodoPelicula(stPelicula peliNueva){
-nodoListaPelicula *nuevoNodo = (nodoListaPelicula*)malloc(sizeof(stPelicula));
-nuevoNodo->sig = NULL;
-nuevoNodo->pelicula = peliNueva;
-return nuevoNodo;
-}
