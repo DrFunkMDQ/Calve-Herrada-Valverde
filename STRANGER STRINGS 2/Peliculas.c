@@ -531,25 +531,86 @@ void altaBajaPelicula(nodoArbol **arbolActivo, nodoArbol **arbolEliminado)
         printf("No es una pelicula valida\n");
 }
 /////////////////////////////////////////////////// ARCHIVOS
-void persistirPeliculas(nodoArbol *arbol, FILE *archi){
-stPelicula pelicula;
-if(arbol){
+void persistirPeliculas(nodoArbol *arbol, FILE *archi)
+{
+    stPelicula pelicula;
+    if(arbol)
+    {
         pelicula = arbol->pelicula;
-    fwrite(&pelicula, 1, sizeof(stPelicula), archi);
-persistirPeliculas(arbol->izq, archi);
-persistirPeliculas(arbol->der, archi);
-}
+        fwrite(&pelicula, 1, sizeof(stPelicula), archi);
+        persistirPeliculas(arbol->izq, archi);
+        persistirPeliculas(arbol->der, archi);
+    }
 }
 
-void persistirTodo(nodoArbol *arbolActivo, nodoArbol *arbolEliminado){
-FILE *archi;
-if(archi = fopen("peliculas.bin", "wb")){
-persistirPeliculas(arbolActivo, archi);
-persistirPeliculas(arbolEliminado, archi);
-if(fclose(archi) == -1)
-    printf("No pudo cerrarse el archivo\n");
-}else{
+void persistirTodo(nodoArbol *arbolActivo, nodoArbol *arbolEliminado)
+{
+    FILE *archi;
+    if(archi = fopen("todaspelis.bin", "wb"))
+    {
+        persistirPeliculas(arbolActivo, archi);
+        persistirPeliculas(arbolEliminado, archi);
+        if(fclose(archi) == -1)
+            printf("No pudo cerrarse el archivo\n");
+    }
+    else
+    {
+        printf("El archivo no pudo abrirse correctamente\n");
+    }
+}
+
+void cantidadPelisArchivo(int *activo, int *eliminado)
+{
+    int cantidad = 0;
+    stPelicula peli;
+    FILE *archi = fopen("todaspelis.bin", "rb");
+    if(archi != NULL)
+    {
+        while(fread(&peli,  sizeof(stPelicula),1, archi) > 0)
+        {
+            if(peli.eliminado == 1)
+                *eliminado ++;
+                else
+                    *activo ++;
+        }
+        if(fclose(archi) == -1)
+            printf("El archivo no pudo cerrarse correctamente\n");
+    }
+    else
+        printf("No se pudo abrir el archivo\n");
+}
+
+void cargaArreglos(stPelicula activas[], stPelicula eliminadas[]){
+int a = 0;
+int b = 0;
+stPelicula peli;
+FILE *archi = fopen("todaspelis.bin", "rb");
+if(archi != NULL){
+    while(fread(&peli, 1, sizeof(stPelicula), archi) > 0){
+        if(peli.eliminado == 0)
+            activas[a] = peli;
+        else
+            eliminadas[b] = peli;
+    }
+    if(fclose == -1)
+        printf("El archivo no pudo cerrarse correctamente\n");
+}else
 printf("El archivo no pudo abrirse correctamente\n");
 }
+
+void levantarArboles(nodoArbol **arbolActivo, nodoArbol **arbolEliminado){
+int a = 0;
+int b = 0;
+cantidadPelisArchivo(&a, &b);
+stPelicula *activas =(stPelicula*) malloc(sizeof(stPelicula) * a);
+stPelicula *eliminadas = (stPelicula*) malloc(sizeof(stPelicula ) *b );
+cargaArreglos(activas, eliminadas);
+//FUNCION PARA AGREGAR LOS ARBOLES VALANCEADOS
 }
 
+void ordenarArreglo(stPelicula arregloPelis ,int validos){
+int i = 0;
+while(i < validos){
+
+}
+}

@@ -34,8 +34,6 @@ int existenciaPeliculaNombre(nodoArbol *arbolActivo, nodoArbol *arbolEliminado, 
 void altaBajaPelicula(nodoArbol **arbolActivo, nodoArbol **arbolEliminado);
 nodoArbol *pasarNodoOtroArbol(nodoArbol *arbol1, nodoArbol **arbol2, int id);
 /////////////////////// ARCHIVOS
-void agregarLista(nodoListaPelicula **lista, nodoListaPelicula *nuevoNodoPelicula);
-void levantarPeliculas (nodoListaPelicula **listaActiva, nodoListaPelicula **listaEliminada, FILE *archi);
 void persistirTodo(nodoArbol *arbolActivo, nodoArbol *arbolEliminado);
 void persistirPeliculas(nodoArbol *arbol, FILE *archi);
-nodoListaPelicula *crearNodoPelicula(stPelicula peliNueva);
+
