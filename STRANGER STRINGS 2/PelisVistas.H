@@ -1,4 +1,4 @@
-#include "structs.h"
+
 
 stPelisVistas valoracionPorUsuario(stPelisVistas peliVista);
 ///retorna una pelicula con la calificacion de usuario ingresada
@@ -28,5 +28,4 @@ void agregarEnOrdenPorNombreDePelicula(nodoListaPelicula ** lista, nodoListaPeli
 void mostrarLista(nodoListaPelicula * lista);/// SAKE // modularizar
 void borrarNodoPorIdPelicula(nodoListaPelicula ** lista, int id);///ok
 //void archivoTo;
-persistirPeliculasVistas(); // esta función realizará la persistencia de todas las películas vistas en el archivo correspondiente
-
+persistirPeliculasVistas(); // esta funciï¿½n realizarï¿½ la persistencia de todas las pelï¿½culas vistas en el archivo correspondiente
