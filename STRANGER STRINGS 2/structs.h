@@ -45,6 +45,7 @@ typedef struct{
 typedef struct{
     stPelicula pelicula;
     stPelicula * sig;
+    int valUser;
 } nodoListaPelicula;
 
 typedef struct
