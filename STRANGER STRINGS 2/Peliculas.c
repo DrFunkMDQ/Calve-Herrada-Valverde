@@ -632,3 +632,12 @@ nodoArbol* arbolBalanceado(stPelicula arr[], int i, int validos)
         arbol= NULL;
     return arbol;
 }
+///// USAR
+//altaBajaPelicula
+//creaYcargaPeliculaAlArbol
+//modificarNodoArbol
+//levantarArboles /////INICIAR PROGRAMA SI O SI
+//persistirTodo /////CERRAR PROGRAMA SI O SI
+//buscarPeliID
+//buscarPeliNombre
+// preorder
