@@ -1,4 +1,4 @@
-
+#include "structs.h"
 
 stPelisVistas valoracionPorUsuario(stPelisVistas peliVista);
 ///retorna una pelicula con la calificacion de usuario ingresada
