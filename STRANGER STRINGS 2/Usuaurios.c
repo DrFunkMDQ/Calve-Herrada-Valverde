@@ -9,6 +9,70 @@ nodoUsuario * inicLista()
     return NULL;
 }
 
+nodoUsuario * extraeNodoUsuarioNombre(nodoUsuario ** LDL, char nombre[])
+{
+    nodoUsuario * usuarioEncontrado=NULL;
+    nodoUsuario * ante=*LDL;
+    nodoUsuario * seg=(*LDL)->sig;
+    if(*LDL)
+    {
+        if(strcmpi((*LDL)->usr.nombreUsuario, nombre)==0)
+        {
+            usuarioEncontrado=*LDL;
+            *LDL=(*LDL)->sig;
+            usuarioEncontrado->sig=NULL;
+        }
+        else
+        {
+            while(strcmpi(seg->usr.nombreUsuario, nombre)!=0)
+            {
+                ante=seg;
+                seg=seg->sig;
+            }
+            if(strcmpi(seg->usr.nombreUsuario, nombre)==0)
+            {
+                usuarioEncontrado=seg;
+                seg=seg->sig;
+                ante->sig=seg;
+                usuarioEncontrado->sig=NULL;
+            }
+        }
+    }
+    return usuarioEncontrado;
+}
+
+nodoUsuario * extraeNodoUsuarioID(nodoUsuario ** LDL, int ID)
+{
+    nodoUsuario * usuarioEncontrado=NULL;
+    nodoUsuario * ante=*LDL;
+    nodoUsuario * seg=(*LDL)->sig;
+    if(*LDL)
+    {
+        if((*LDL)->usr.idUsuario==ID)
+        {
+            usuarioEncontrado=*LDL;
+            *LDL=(*LDL)->sig;
+            usuarioEncontrado->sig=NULL;
+        }
+        else
+        {
+            while((seg->usr.idUsuario<ID)&&(seg))
+            {
+                ante=seg;
+                seg=seg->sig;
+            }
+            if(seg->usr.idUsuario==ID)
+            {
+                usuarioEncontrado=seg;
+                seg=seg->sig;
+                ante->sig=seg;
+                usuarioEncontrado->sig=NULL;
+            }
+        }
+    }
+    return usuarioEncontrado;
+}
+
 void recorreListaUsuarios(nodoUsuario * LDL)
 {
     if(LDL)
@@ -23,15 +87,15 @@ void pasarDeArchivoUsuariosToLDL(char archivo[], nodoUsuario ** listaAlta, nodoU
     FILE *usuarios;
     stUsuario pasaUsuario;
     usuarios=fopen(archivo, "rb");
-        while(!feof(usuarios))
-        {
-            fread(&pasaUsuario, sizeof(stUsuario), 1, usuarios);
-            if(!feof(usuarios))
-                if(pasaUsuario.eliminado==0)
-                    *listaAlta=agregarAlFinalUsuario(creaNodoUsuario(pasaUsuario), *listaAlta);
-                else
-                    *listaBaja=agregarAlFinalUsuario(creaNodoUsuario(pasaUsuario), *listaBaja);
-        }
+    while(!feof(usuarios))
+    {
+        fread(&pasaUsuario, sizeof(stUsuario), 1, usuarios);
+        if(!feof(usuarios))
+            if(pasaUsuario.eliminado==0)
+                *listaAlta=agregaUsuarioEnOrden(*listaAlta, creaNodoUsuario(pasaUsuario));
+            else
+                *listaBaja=agregaUsuarioEnOrden(*listaBaja, creaNodoUsuario(pasaUsuario));
+    }
 
     fclose(usuarios);
 }
@@ -45,20 +109,47 @@ nodoUsuario * creaNodoUsuario(stUsuario usuarioNuevo)///CREA UN NODO DE USUARIO
     return nuevoUsr;
 }
 
-int consultaExistenciaUsuario(nodoUsuario * LDL, char nombre[])///VERIFICA EXISTENCIA DE USUARIO EN LA LISTA. RETORNA 1 SI EXISTE.
+int consultaExistenciaUsuario(nodoUsuario * listaAlta, nodoUsuario * listaBaja, char nombre[])///VERIFICA EXISTENCIA DE USUARIO EN LA LISTA. RETORNA 1 SI EXISTE.
 {
     int existe=0;
-    if(LDL)
+    if(listaAlta)
     {
-        if(strcmp(LDL->usr.nombreUsuario, nombre)==0)
+        if(strcmpi(listaAlta->usr.nombreUsuario, nombre)==0)
             existe=1;
         else
-            existe=consultaExistenciaUsuario(LDL->sig, nombre);
+            existe=consultaExistenciaUsuario(listaAlta->sig, listaBaja, nombre);
+    }
+    if(existe==0)
+    {
+        if(listaBaja)
+        {
+            if(strcmpi(listaBaja->usr.nombreUsuario, nombre)==0)
+                existe=1;
+            else
+                existe=consultaExistenciaUsuario(listaAlta, listaBaja->sig, nombre);
+        }
     }
     return existe;
 }
 
-nodoUsuario * agregarAlFinalUsuario(nodoUsuario * nuevoUsr, nodoUsuario * LDL)
+nodoUsuario * agregaUsuarioEnOrden(nodoUsuario *LDL, nodoUsuario * nuevoNodo)
+{
+    if(!LDL)
+        LDL=nuevoNodo;
+    else
+    {
+        if(nuevoNodo->usr.idUsuario<LDL->usr.idUsuario)
+        {
+            nuevoNodo->sig=LDL;
+            LDL=nuevoNodo;
+        }
+        else
+            LDL->sig=agregaUsuarioEnOrden(LDL->sig, nuevoNodo);
+    }
+    return LDL;
+}
+
+nodoUsuario * agregarAlFinalUsuario(nodoUsuario * LDL, nodoUsuario * nuevoUsr)
 {
     nodoUsuario * aux;
     if(!LDL)
@@ -72,14 +163,14 @@ nodoUsuario * agregarAlFinalUsuario(nodoUsuario * nuevoUsr, nodoUsuario * LDL)
     return LDL;
 }
 
-nodoUsuario * agregarUsuario(nodoUsuario * LDL)///AGREGA UN USUARIO A LA LISTA
+nodoUsuario * subProgramaAgregarUsuario(nodoUsuario * listaAlta, nodoUsuario * listaBaja)///AGREGA UN USUARIO A LA LISTA
 {
     nodoUsuario * nuevoNodo;
     stUsuario usuarioNuevo;
-    usuarioNuevo=crearUsuario(LDL);///SE PASA LA LISTA, DEBIDO A QUE SE NECESITA PARA RECUPERAR EL ÚLTIMO
+    usuarioNuevo=crearUsuario(listaAlta, listaBaja);///SE PASAN LAS LISTAS, DEBIDO A QUE SE NECESITA PARA RECUPERAR EL ÚLTIMO
     nuevoNodo=creaNodoUsuario(usuarioNuevo);
-    LDL=agregarAlFinalUsuario(nuevoNodo, LDL);
-    return LDL;
+    listaAlta=agregarAlFinalUsuario(listaAlta, nuevoNodo);
+    return listaAlta;
 }
 
 nodoUsuario * buscarUltimoNodoUsuario(nodoUsuario * LDL)///RETORNA EL ÚLTIMO ID DE USUARIO DE LA LISTA
@@ -93,19 +184,20 @@ nodoUsuario * buscarUltimoNodoUsuario(nodoUsuario * LDL)///RETORNA EL ÚLTIMO ID 
     return aux;
 }
 
-int devuelveUltimoIDUsuario(nodoUsuario * LDL)///RETORNA EL ÚLTIMO USUARIO DE LA LISTA.
+int devuelveUltimoIDUsuario(nodoUsuario * listaAlta, nodoUsuario * listaBaja)///RETORNA EL ÚLTIMO USUARIO DE LA LISTA.
 {
     int ultimoID=0;
-    nodoUsuario * aux=LDL;
+    nodoUsuario * aux;
+    aux= UltimoNodoUsuario(listaAlta);
+    if(aux)
+        ultimoID=aux->usr.idUsuario;
+    aux=buscarUltimoNodoUsuario(listaBaja);
     if(aux)
     {
-        while(aux->sig)
-        {
-            aux=aux->sig;
-        }
-        ultimoID=aux->usr.idUsuario;
+        if(aux->usr.idUsuario>ultimoID)
+            ultimoID=aux->usr.idUsuario;
     }
-    return ultimoID;
+   return ultimoID;
 }
 
 nodoUsuario * eliminaNodo(nodoUsuario * LDL)///ELIMINA EL NODO Y DA LA REFERENCIA AL SIGUIENTE
@@ -217,21 +309,21 @@ stUsuario modificaUsuario(stUsuario usuarioAModificar, int opcion)
     return usuarioAModificar;
 }
 
-stUsuario crearUsuario(nodoUsuario * LDL)///CREA UN TIPO STRUCT USUARIO
+stUsuario crearUsuario(nodoUsuario * listaAlta, nodoUsuario * listaBaja)///CREA UN TIPO STRUCT USUARIO
 {
     stUsuario usuarioVacio;
     int passOK, existe;
     char password[11];
-    usuarioVacio.idUsuario=devuelveUltimoIDUsuario(LDL)+1;
+    usuarioVacio.idUsuario=devuelveUltimoIDUsuario(listaAlta, listaBaja)+1;
     printf("Ingrese el nombre de usuario:\n");
     fflush(stdin);
     gets(usuarioVacio.nombreUsuario);
-    existe=consultaExistenciaUsuario(LDL, usuarioVacio.nombreUsuario);
+    existe=consultaExistenciaUsuario(listaAlta, listaBaja, usuarioVacio.nombreUsuario);
     while(existe==1)
     {
         printf("Ese nombre ya est%c en uso, ingrese otro\n", 160);
         gets(usuarioVacio.nombreUsuario);
-        existe=consultaExistenciaUsuario(LDL, usuarioVacio.nombreUsuario);
+        existe=consultaExistenciaUsuario(listaAlta, listaBaja, usuarioVacio.nombreUsuario);
     }
     printf("Ingrese el genero con el que m%cs se sienta identificado (1 letra porfis):\n",160);
     fflush(stdin);
@@ -291,10 +383,10 @@ void muestraUsuario(stUsuario usuario)
 /////////////////FUNCIONES CON ARCHIVOS////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 
-stUsuario cargaArchivoUsuarios(char archivoUsuarios[], nodoUsuario * LDL)
+stUsuario cargaArchivoUsuarios(char archivoUsuarios[], nodoUsuario * listaAlta, nodoUsuario * listaBaja)
 {
     stUsuario nuevoUsuario;
-    nuevoUsuario=crearUsuario(LDL);
+    nuevoUsuario=crearUsuario(listaAlta, listaBaja);
     escribeUsuarioEnArchivo(archivoUsuarios, nuevoUsuario);
     return nuevoUsuario;
 }
@@ -322,29 +414,30 @@ void muestraArchivo(char arch[])
     }
 }
 
-void persisteUsuariosArchivo(char archivoUsuarios[], nodoUsuario * listaAlta, nodoUsuario * listaBaja)///GUARDA LA LISTA EN EL ARCHIVO.
+void persisteUsuariosArchivo(char archivoUsuarios[], nodoUsuario ** listaAlta, nodoUsuario ** listaBaja)///GUARDA LA LISTA EN EL ARCHIVO.
 {
     FILE *usuarios;
     stUsuario pasaUsuario;
     usuarios=fopen(archivoUsuarios, "wb");
-    while(listaAlta)
-        {
-            pasaUsuario=listaAlta->usr;
-            fwrite(&pasaUsuario, sizeof(stUsuario), 1, usuarios);
-            listaAlta=eliminaNodo(listaAlta);
-        }
-    while(listaBaja)
-        {
-            pasaUsuario=listaBaja->usr;
-            fwrite(&pasaUsuario, sizeof(stUsuario), 1, usuarios);
-            listaBaja=eliminaNodo(listaBaja);
-        }
+    while(*listaAlta)
+    {
+        pasaUsuario=(*listaAlta)->usr;
+        fwrite(&pasaUsuario, sizeof(stUsuario), 1, usuarios);
+        *listaAlta=eliminaNodo(*listaAlta);
+    }
+    while(*listaBaja)
+    {
+        pasaUsuario=(*listaBaja)->usr;
+        fwrite(&pasaUsuario, sizeof(stUsuario), 1, usuarios);
+        *listaBaja=eliminaNodo(*listaBaja);
+    }
     fclose(usuarios);
 }
 
 ///////////////////////////////////////////////////////////////////////////
 /////////////////ENCRIPTACIÓN DE CONTRASEÑAS///////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
+
 
 void contraseniaUsuario(char contrasenia[], int matContrasenia[][5])///ENCRIPTA LA CONTRASEÑA
 {
