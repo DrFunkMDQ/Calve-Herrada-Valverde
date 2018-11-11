@@ -36,4 +36,4 @@ nodoArbol *pasarNodoOtroArbol(nodoArbol *arbol1, nodoArbol **arbol2, int id);
 /////////////////////// ARCHIVOS
 void persistirTodo(nodoArbol *arbolActivo, nodoArbol *arbolEliminado);
 void persistirPeliculas(nodoArbol *arbol, FILE *archi);
-
+nodoArbol *arbolBalanceado(stPelicula arr[], int i, int validos);

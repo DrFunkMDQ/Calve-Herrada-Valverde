@@ -95,7 +95,8 @@ void preorder(nodoArbol *arbol) //Muestra el arbol completo preorder
 {
     if(arbol)
     {
-        mostrarPelicula(arbol->pelicula);
+
+      mostrarPelicula(arbol->pelicula);
         preorder(arbol->izq);
         preorder(arbol->der);
     }
@@ -546,7 +547,7 @@ void persistirPeliculas(nodoArbol *arbol, FILE *archi)
 void persistirTodo(nodoArbol *arbolActivo, nodoArbol *arbolEliminado)
 {
     FILE *archi;
-    if(archi = fopen("todaspelis.bin", "wb"))
+    if(archi = fopen("peliculas.dat", "wb"))
     {
         persistirPeliculas(arbolActivo, archi);
         persistirPeliculas(arbolEliminado, archi);
@@ -561,17 +562,18 @@ void persistirTodo(nodoArbol *arbolActivo, nodoArbol *arbolEliminado)
 
 void cantidadPelisArchivo(int *activo, int *eliminado)
 {
-    int cantidad = 0;
     stPelicula peli;
-    FILE *archi = fopen("todaspelis.bin", "rb");
+    FILE *archi = fopen("peliculas.dat", "rb");
     if(archi != NULL)
     {
-        while(fread(&peli,  sizeof(stPelicula),1, archi) > 0)
+        while(fread(&peli, 1, sizeof(stPelicula), archi) > 0)
+
         {
+
             if(peli.eliminado == 1)
-                *eliminado ++;
-                else
-                    *activo ++;
+                *eliminado = *eliminado + 1;
+            else
+                *activo = *activo +1;
         }
         if(fclose(archi) == -1)
             printf("El archivo no pudo cerrarse correctamente\n");
@@ -580,37 +582,52 @@ void cantidadPelisArchivo(int *activo, int *eliminado)
         printf("No se pudo abrir el archivo\n");
 }
 
-void cargaArreglos(stPelicula activas[], stPelicula eliminadas[]){
-int a = 0;
-int b = 0;
-stPelicula peli;
-FILE *archi = fopen("todaspelis.bin", "rb");
-if(archi != NULL){
-    while(fread(&peli, 1, sizeof(stPelicula), archi) > 0){
-        if(peli.eliminado == 0)
-            activas[a] = peli;
-        else
-            eliminadas[b] = peli;
+void cargaArreglos(stPelicula activas[], stPelicula eliminadas[])
+{
+    int a = 0;
+    int b = 0;
+    stPelicula peli;
+    FILE *archi = fopen("peliculas.dat", "rb");
+    if(archi != NULL)
+    {
+        while(fread(&peli, 1, sizeof(stPelicula), archi) > 0)
+        {
+            if(peli.eliminado == 0){
+                activas[a] = peli;
+                a++;}
+            else{
+                eliminadas[b] = peli;
+        b++;
+        }}
+        if(fclose == -1)
+            printf("El archivo no pudo cerrarse correctamente\n");
     }
-    if(fclose == -1)
-        printf("El archivo no pudo cerrarse correctamente\n");
-}else
-printf("El archivo no pudo abrirse correctamente\n");
+    else
+        printf("El archivo no pudo abrirse correctamente\n");
 }
 
-void levantarArboles(nodoArbol **arbolActivo, nodoArbol **arbolEliminado){
-int a = 0;
-int b = 0;
-cantidadPelisArchivo(&a, &b);
-stPelicula *activas =(stPelicula*) malloc(sizeof(stPelicula) * a);
-stPelicula *eliminadas = (stPelicula*) malloc(sizeof(stPelicula ) *b );
-cargaArreglos(activas, eliminadas);
-//FUNCION PARA AGREGAR LOS ARBOLES VALANCEADOS
-}
+void levantarArboles(nodoArbol **arbolActivo, nodoArbol **arbolEliminado)
+{
+    int a = 0;
+    int b = 0;
+    int i = 0;
+    cantidadPelisArchivo(&a, &b);
+    stPelicula *activas =(stPelicula*) malloc(sizeof(stPelicula) * a);
+    stPelicula *eliminadas = (stPelicula*) malloc(sizeof(stPelicula ) *b );
+    cargaArreglos(activas, eliminadas);
+    *arbolActivo = arbolBalanceado(activas, i, a);
+    i = 0;
+    *arbolEliminado = arbolBalanceado(eliminadas, i, b);
 
-void ordenarArreglo(stPelicula arregloPelis ,int validos){
-int i = 0;
-while(i < validos){
-
 }
+////
+nodoArbol* arbolBalanceado(stPelicula arr[], int i, int validos)
+{int medio = (i + validos)/2;
+    nodoArbol *arbol= crearNodoArbol(arr[medio]);
+    if (i < validos){
+    arbol->izq =  arbolBalanceado(arr, i, medio-1);
+    arbol->der = arbolBalanceado(arr, medio +1, validos);}
+    else
+        arbol= NULL;
+    return arbol;
 }

@@ -3,14 +3,12 @@
 
 int main()
 {
-    int cantidad;
+    int a = 0;
+    int b = 0;
     nodoArbol *arbolActivo = inicArbol();
     nodoArbol *arbolEliminado = inicArbol();
-    /*arbolActivo = creaYcargaPeliculaAlArbol(arbolActivo, arbolEliminado);
-    arbolActivo = creaYcargaPeliculaAlArbol(arbolActivo, arbolEliminado);
-    arbolActivo = creaYcargaPeliculaAlArbol(arbolActivo, arbolEliminado);
-    persistirTodo(arbolActivo, arbolEliminado);*/
-    cantidad = cantidadPelisArchivo(0);
-    printf("%d", cantidad);
+    levantarArboles(&arbolActivo, &arbolEliminado);
+    postorder(arbolActivo);
+
     return 0;
 }
