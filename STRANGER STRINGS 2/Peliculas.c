@@ -370,6 +370,7 @@ void modificarNodoArbol(nodoArbol *arbolActivo, nodoArbol *arbolEliminado)
         break;
     case 2:
         printf("Ingrese ID a buscar\n");
+        fflush(stdin);
         scanf("%d", &id);
         if(id <= ultimoIDPelicula(arbolActivo, arbolEliminado))
         {
@@ -379,9 +380,9 @@ void modificarNodoArbol(nodoArbol *arbolActivo, nodoArbol *arbolEliminado)
         }
         break;
 
-        aux->pelicula = modificaPelicula(arbolActivo, arbolEliminado, aux->pelicula);
+
     }
-}
+aux->pelicula = modificaPelicula(arbolActivo, arbolEliminado, aux->pelicula);}
 
 void insertarDirector(char *director)
 {
