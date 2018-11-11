@@ -8,7 +8,7 @@ stPelisVistas valoracionPorUsuario(stPelisVistas peliVista)
     scanf("%d", &peliVista.valUser);
     return peliVista;
 }
-nodoUsuario * pasarDeArchivoPelisVistasToLDL(char ruta [], nodoUsuario ** lDlAlta, nodoUsuario ** lDlBaja, nodoArbol * arbolAlta, nodoArbol * arbolBaja)
+void pasarDeArchivoPelisVistasToLDL(char ruta [], nodoUsuario ** lDlAlta, nodoUsuario ** lDlBaja, nodoArbol * arbolAlta, nodoArbol * arbolBaja)
 {
     nodoListaPelicula * listaAlta;
     nodoListaPelicula * listaBaja;
@@ -48,7 +48,6 @@ nodoUsuario * pasarDeArchivoPelisVistasToLDL(char ruta [], nodoUsuario ** lDlAlt
             printf("El archivo no se pudo cerrar correctamente.\n");
         }
     }
-    return lDlBaja;
 }
 
 void inicListaPeliculas(nodoListaPelicula ** lista){
@@ -65,7 +64,7 @@ nodoListaPelicula * buscarUsuarioID(nodoUsuario * lDl, int idUsuario)
             aux = lDl->listaPelis;
         else
         {
-            /// aux = buscarListaPelicula(lDl, idUsuario);  EMIII
+            aux = buscarUsuarioID(lDl->sig, idUsuario);
         }
     }
     return aux;
@@ -86,51 +85,44 @@ void agregarPpiolListaPeliculas (nodoListaPelicula ** lista, nodoListaPelicula *
     *lista = nuevoNodo;
 }
 
-nodoUsuario * actualizarPeliculasVistas(char ruta [], nodoUsuario ** lDlAlta, nodoUsuario ** lDlBaja)
+void actualizarPeliculasVistas(char ruta [], nodoUsuario ** lDlAlta, nodoUsuario ** lDlBaja)
 {
-    actualizarPvAlta(ruta, &lDlAlta);
-    actualizarPvBaja(ruta, &lDlBaja);
+    FILE * archivo;
+    if(archivo = fopen(ruta, "wb"))
+    {
+        actualizarPvAlta(ruta, &lDlAlta);
+        actualizarPvBaja(ruta, &lDlBaja);
+    }
+    fclose(archivo);
 }
 
-nodoUsuario * actualizarPvAlta (char ruta [], nodoUsuario ** lDlAlta)
+void actualizarPvAlta (FILE * archivo, nodoUsuario ** lDlAlta)
 {
     while(*lDlAlta)
     {
         while((*lDlAlta)->listaPelis)
         {
-            persistirPeliVista(ruta, (*lDlAlta)->listaPelis);
+            fwrite((*lDlAlta)->listaPelis, sizeof(stPelisVistas), 1, archivo);
             borrarPrimerPeliVista(&(*lDlAlta)->listaPelis);
         }
         *lDlAlta = (*lDlAlta)->sig;
     }
 }
 
-nodoUsuario * actualizarPvBaja (char ruta [], nodoUsuario ** lDlBaja)
+void actualizarPvBaja (FILE * archivo, nodoUsuario ** lDlBaja)
 {
     while(*lDlBaja)
     {
         while((*lDlBaja)->listaPelis)
         {
-            persistirPeliVista(ruta, (*lDlBaja)->listaPelis);
+            fwrite((*lDlBaja)->listaPelis, sizeof(stPelisVistas), 1, archivo);
             borrarPrimerPeliVista(&(*lDlBaja)->listaPelis);
         }
         *lDlBaja = (*lDlBaja)->sig;
     }
 }
 
-void persistirPeliVista(char ruta[], stPelisVistas * peliVista)
-{
-    FILE * pFile = fopen(ruta, "wb");
-    if((pFile = fopen(ruta, "wb")) != NULL)
-    {
-        fwrite(peliVista, sizeof(stPelisVistas), 1, pFile);
-        if(fclose(pFile) == -1)
-        {
-            printf("*ERROR*\n");
-            printf("El archivo no se pudo cerrar correctamente.\n");
-        }
-    }
-}
+
 
 void borrarPrimerPeliVista(nodoListaPelicula ** lista)
 {

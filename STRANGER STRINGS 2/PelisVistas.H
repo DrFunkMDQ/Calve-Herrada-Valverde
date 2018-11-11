@@ -1,20 +1,19 @@
-
+#include "structs.h"
 
 stPelisVistas valoracionPorUsuario(stPelisVistas peliVista);
-///retorna una pelicula con la calificacion de usuario ingresada
-nodoUsuario * pasarDeArchivoPelisVistasToLDL(char ruta [], nodoUsuario ** lDlAlta, nodoUsuario ** lDlBaja, nodoArbol * arbolAlta, nodoArbol * arbolBaja);///REVISAR
+///retorna un stpelicula con la calificacion de usuario ingresada
+void pasarDeArchivoPelisVistasToLDL(char ruta [], nodoUsuario ** lDlAlta, nodoUsuario ** lDlBaja, nodoArbol * arbolAlta, nodoArbol * arbolBaja);///REVISAR
 //
-nodoUsuario * actualizarPeliculasVistas(char ruta [], nodoUsuario ** lDlAlta, nodoUsuario ** lDlBaja);
+void actualizarPeliculasVistas(char ruta [], nodoUsuario ** lDlAlta, nodoUsuario ** lDlBaja);
 //
-nodoUsuario * actualizarPvAlta (char ruta [], nodoUsuario ** lDlAlta);
-nodoUsuario * actualizarPvBaja (char ruta [], nodoUsuario ** lDlBaja);
+void actualizarPvAlta (FILE * archivo, nodoUsuario ** lDlAlta);
+void actualizarPvBaja (FILE * archivo, nodoUsuario ** lDlBaja);
 nodoListaPelicula * buscarUsuarioID(nodoUsuario * lDl, int idUsuario);
 ///Busca usuario por ID y retorna el mismo si es que existe, si no NULL
 void agregarPpiolListaPeliculas (nodoListaPelicula ** lista, nodoListaPelicula * nuevoNodo);
 ///Agrega nodo al Ppio de lista de peliculas
 nodoListaPelicula * crearNodoListaPeliculas(stPelicula peli, int valoracion);
 ///Retorna un nodoListaPelicula
-void persistirPeliVista(char ruta[], stPelisVistas * peliVista);
 void borrarUltimaPeliVista(nodoListaPelicula ** lista);
 void reproducirPelicula(nodoListaPelicula ** listaUsr, int peliID);
 
