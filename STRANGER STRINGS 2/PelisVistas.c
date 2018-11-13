@@ -31,7 +31,7 @@ nodoUsuario * pasarDeArchivoPelisVistasToLDL(char ruta [], nodoUsuario ** lDlAlt
                 //almacena la pelicula en cuestion
                 if(auxNuevaPeli == NULL)
                     ///auxNuevaPeli = buscarPeliID(arbolBaja, auxPeli.idPelicula);///SAKE
-                listaAlta = buscarUsuarioID(*lDlAlta, auxPeli.idUsuario);///archivo ordenado, solo comparo que sea igual a USRID o paso al siguiente
+                    listaAlta = buscarUsuarioID(*lDlAlta, auxPeli.idUsuario);///archivo ordenado, solo comparo que sea igual a USRID o paso al siguiente
                 //lista de usuario en cuestion
                 if(listaAlta == NULL)
                 {
@@ -51,7 +51,8 @@ nodoUsuario * pasarDeArchivoPelisVistasToLDL(char ruta [], nodoUsuario ** lDlAlt
     return lDlBaja;
 }
 
-void inicListaPeliculas(nodoListaPelicula ** lista){
+void inicListaPeliculas(nodoListaPelicula ** lista)
+{
     *lista = NULL;
 }
 
@@ -165,7 +166,8 @@ void borrarUltimaPeliVista(nodoListaPelicula ** lista)
     }
 }
 
-void reproducirPelicula(nodoListaPelicula ** listaUsr, int peliID){
+void reproducirPelicula(nodoListaPelicula ** listaUsr, int peliID)
+{
     ///agregarAlFinal(listaUsr, buscarPeliID(arbolBaja, auxPeli.idPelicula);///SAKE)
 
 }
@@ -256,5 +258,29 @@ void borrarNodoPorIdPelicula(nodoListaPelicula ** lista, int id)
     }
 }
 
+nodoRecomendacion * crearRecomendacion(nodoRecomendacion * listaRecomendaciones, int idRemitente, nodoUsuario * listaAltas, nodoUsuario * listaBajas)
+{
+    nodoRecomendacion * nuevaRecomendacion=malloc(sizeof(nodoRecomendacion));
+
+}
+
+void muestraRecomendacionesActivas (stRecomendacion recoActiva)
+{
+    nodoUsuario * usuario;
+    if (recoActiva.mensajeVisto==0)
+    {
+        printf("--------------------------------------\n");
+        printf("De: %s\n", recoActiva.remitente);
+        printf("Mensaje: %s\n", usuario.nombreUsuario);
+        printf("--------------------------------------\n");
+        printf("Te recomienda ver la siguiente peli:\n");
 
 
+    }
+
+}
+
+void muestraTodasRecomendaciones (stRecomendacion reco)
+{
+    stRecomendacion p_reco;
+}
