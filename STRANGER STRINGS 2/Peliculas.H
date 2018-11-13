@@ -6,9 +6,8 @@ void mostrarPelicula(stPelicula pelicula);  //Muestra una pelicula
 stPelicula crearPelicula(nodoArbol *arbolActivo, nodoArbol *arbolEliminado);
 void insertarNombre(nodoArbol *arbolActivo, nodoArbol *arbolEliminado, char *nombre[]);
 void insertarAnio(int *anio);
-void insertarDirector(char *director);
+void insertarTexto(char texto[]);
 void insertarGenero(char *genero);
-void insertarPais(char *pais);
 void insertarPM(int *pm);
 void insertarValoracion(int *valoracion);
 ///ARBOLES

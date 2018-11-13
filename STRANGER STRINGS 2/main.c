@@ -8,7 +8,9 @@ int main()
     nodoArbol *arbolActivo = inicArbol();
     nodoArbol *arbolEliminado = inicArbol();
     levantarArboles(&arbolActivo, &arbolEliminado);
-    postorder(arbolActivo);
+    inorder(arbolActivo);
+    modificarNodoArbol(arbolActivo, arbolEliminado);
+    inorder(arbolActivo);
 
     return 0;
 }
