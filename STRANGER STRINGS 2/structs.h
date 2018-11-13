@@ -55,4 +55,18 @@ typedef struct
     struct nodoUsuario * sig;
 } nodoUsuario;
 
+typedef struct
+{
+    int usuarioReceptor;
+    char remitente[15];
+    stPelicula peli;
+    int mensajeVisto; ///0 SI NO FUE VISTO, 1 SI FUE VISTO.
+    char mensaje[100];
+}stRecomendacion;
+
+typedef struct
+{
+    stRecomendacion recomendacion;
+    nodoRecomendacion * sig;
+}nodoRecomendacion;
 
