@@ -36,3 +36,12 @@ nodoArbol *pasarNodoOtroArbol(nodoArbol *arbol1, nodoArbol **arbol2, int id);
 void persistirTodo(nodoArbol *arbolActivo, nodoArbol *arbolEliminado);
 void persistirPeliculas(nodoArbol *arbol, FILE *archi);
 nodoArbol *arbolBalanceado(stPelicula arr[], int i, int validos);
+///// USAR
+//altaBajaPelicula
+//creaYcargaPeliculaAlArbol
+//modificarNodoArbol
+//levantarArboles /////INICIAR PROGRAMA SI O SI
+//persistirTodo /////CERRAR PROGRAMA SI O SI
+//buscarPeliID
+//buscarPeliNombre
+// preorder
