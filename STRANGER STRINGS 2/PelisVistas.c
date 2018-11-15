@@ -258,6 +258,7 @@ void borrarNodoPorIdPelicula(nodoListaPelicula ** lista, int id)
     }
 }
 
+<<<<<<< HEAD
 nodoRecomendacion * crearRecomendacion(nodoRecomendacion * listaRecomendaciones, char nombreRemitente,nodoUsuario * listaAltas, nodoUsuario * listaBajas, nodoArbol * arbolAltas, nodoArbol * arbolBajas)
 {
     char mensaje[100];
@@ -291,6 +292,11 @@ nodoRecomendacion * crearRecomendacion(nodoRecomendacion * listaRecomendaciones,
     nuevaRecomendacion->recomendacion.peli=
         nuevaRecomendacion->recomendacion.mensajeVisto=0;
 
+=======
+nodoRecomendacion * crearRecomendacion(nodoRecomendacion * listaRecomendaciones, int idRemitente, nodoUsuario * listaAltas, nodoUsuario * listaBajas)
+{
+    nodoRecomendacion * nuevaRecomendacion=malloc(sizeof(nodoRecomendacion));
+>>>>>>> de19114a7f15ec715afd09763f59dc73ea98dde3
 
 }
 
@@ -303,6 +309,7 @@ void muestraRecomendacionesActivas (stRecomendacion recoActiva)
         printf("De: %s\n", recoActiva.remitente);
         printf("Mensaje: %s\n", usuario.nombreUsuario);
         printf("--------------------------------------\n");
+<<<<<<< HEAD
         printf("Te recomiendan ver la siguiente peli:\n");
         mostrarPelicula(recoActiva.peli);
     }
@@ -312,4 +319,16 @@ void muestraTodasRecomendaciones (stRecomendacion reco)
 {
 
 }
+=======
+        printf("Te recomienda ver la siguiente peli:\n");
 
+
+    }
+>>>>>>> de19114a7f15ec715afd09763f59dc73ea98dde3
+
+}
+
+void muestraTodasRecomendaciones (stRecomendacion reco)
+{
+    stRecomendacion p_reco;
+}
