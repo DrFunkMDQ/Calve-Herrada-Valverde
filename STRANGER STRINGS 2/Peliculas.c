@@ -618,9 +618,9 @@ void levantarArboles(nodoArbol **arbolActivo, nodoArbol **arbolEliminado) //Subp
     stPelicula *activas =(stPelicula*) malloc(sizeof(stPelicula) * a);
     stPelicula *eliminadas = (stPelicula*) malloc(sizeof(stPelicula ) *b );
     cargaArreglos(activas, eliminadas);
-    *arbolActivo = arbolBalanceado(activas, i, a);
+    *arbolActivo = arbolBalanceado(activas, i, a-1);
     i = 0;
-    *arbolEliminado = arbolBalanceado(eliminadas, i, b);
+    *arbolEliminado = arbolBalanceado(eliminadas, i, b-1);
 
 }
 ////
@@ -628,7 +628,7 @@ nodoArbol* arbolBalanceado(stPelicula arr[], int i, int validos)
 {
     nodoArbol *arbol;
     int medio = (i + validos)/2;
-    if (i > validos-1)
+    if (i > validos)
         arbol=NULL;
     else
     {

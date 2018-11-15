@@ -57,11 +57,7 @@ typedef struct
 
 typedef struct
 {
-<<<<<<< HEAD
     char receptor[15];
-=======
-    int usuarioReceptor;
->>>>>>> de19114a7f15ec715afd09763f59dc73ea98dde3
     char remitente[15];
     stPelicula peli;
     int mensajeVisto; ///0 SI NO FUE VISTO, 1 SI FUE VISTO.
@@ -71,10 +67,6 @@ typedef struct
 typedef struct
 {
     stRecomendacion recomendacion;
-<<<<<<< HEAD
     struct nodoRecomendacion * sig;
-=======
-    nodoRecomendacion * sig;
->>>>>>> de19114a7f15ec715afd09763f59dc73ea98dde3
 }nodoRecomendacion;
 
