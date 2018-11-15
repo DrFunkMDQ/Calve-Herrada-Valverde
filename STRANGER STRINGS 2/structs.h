@@ -57,7 +57,7 @@ typedef struct
 
 typedef struct
 {
-    int usuarioReceptor;
+    char receptor[15];
     char remitente[15];
     stPelicula peli;
     int mensajeVisto; ///0 SI NO FUE VISTO, 1 SI FUE VISTO.
@@ -67,6 +67,6 @@ typedef struct
 typedef struct
 {
     stRecomendacion recomendacion;
-    nodoRecomendacion * sig;
+    struct nodoRecomendacion * sig;
 }nodoRecomendacion;
 

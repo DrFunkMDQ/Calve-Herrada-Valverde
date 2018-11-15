@@ -93,7 +93,7 @@ void preorder(nodoArbol *arbol) //Muestra el arbol completo preorder
     if(arbol)
     {
 
-      mostrarPelicula(arbol->pelicula);
+        mostrarPelicula(arbol->pelicula);
         preorder(arbol->izq);
         preorder(arbol->der);
     }
@@ -379,7 +379,7 @@ void modificarNodoArbol(nodoArbol *arbolActivo, nodoArbol *arbolEliminado) //Bus
 
 
     }
-aux->pelicula = modificaPelicula(arbolActivo, arbolEliminado, aux->pelicula);
+    aux->pelicula = modificaPelicula(arbolActivo, arbolEliminado, aux->pelicula);
 }
 
 void insertarTexto(char texto[])
@@ -591,13 +591,17 @@ void cargaArreglos(stPelicula activas[], stPelicula eliminadas[]) //Carga los ar
     {
         while(fread(&peli, 1, sizeof(stPelicula), archi) > 0)
         {
-            if(peli.eliminado == 0){
+            if(peli.eliminado == 0)
+            {
                 activas[a] = peli;
-                a++;}
-            else{
+                a++;
+            }
+            else
+            {
                 eliminadas[b] = peli;
-        b++;
-        }}
+                b++;
+            }
+        }
         if(fclose == -1)
             printf("El archivo no pudo cerrarse correctamente\n");
     }
@@ -621,13 +625,16 @@ void levantarArboles(nodoArbol **arbolActivo, nodoArbol **arbolEliminado) //Subp
 }
 ////
 nodoArbol* arbolBalanceado(stPelicula arr[], int i, int validos)
-{int medio = (i + validos)/2;
-    nodoArbol *arbol= crearNodoArbol(arr[medio]);
-    if (i < validos){
+{
+    nodoArbol *arbol;
+    int medio = (i + validos)/2;
+    if (i > validos-1)
+        arbol=NULL;
+    else{
+    arbol=crearNodoArbol(arr[medio]);
     arbol->izq =  arbolBalanceado(arr, i, medio-1);
-    arbol->der = arbolBalanceado(arr, medio +1, validos);}
-    else
-        arbol= NULL;
+    arbol->der = arbolBalanceado(arr, medio +1, validos);
+    }
     return arbol;
 }
 ///// USAR

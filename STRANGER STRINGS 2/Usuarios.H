@@ -21,7 +21,7 @@ nodoUsuario * agregaUsuarioEnOrden(nodoUsuario *LDL, nodoUsuario * nuevoNodo);
 ///////////////////////////////////////////////////////////////////////////
 
 stUsuario crearUsuario(nodoUsuario * listaAlta, nodoUsuario * listaBaja);///CREA UN USUARIO
-stUsuario modificaUsuario(stUsuario usuarioAModificar, int opcion);
+stUsuario modificaUsuario(stUsuario usuarioAModificar, int opcion, nodoUsuario * listaAlta, nodoUsuario * listaBaja);
 int validaLongitudPassword(char password[]);///VERIFICA QUE EL PASSWORD TENGA 10 CARACTERES.
 stUsuario cargaArchivoUsuarios(char archivoUsuarios[], nodoUsuario * listaAlta, nodoUsuario * listaBaja);
 void escribeUsuarioEnArchivo(char archivoUsuarios[], stUsuario usuarioAEscribir);

@@ -258,9 +258,32 @@ void borrarNodoPorIdPelicula(nodoListaPelicula ** lista, int id)
     }
 }
 
-nodoRecomendacion * crearRecomendacion(nodoRecomendacion * listaRecomendaciones, int idRemitente, nodoUsuario * listaAltas, nodoUsuario * listaBajas)
+/*nodoRecomendacion * crearRecomendacion(nodoRecomendacion * listaRecomendaciones, char nombreRemitente,nodoUsuario * listaAltas, nodoUsuario * listaBajas, nodoArbol * arbolAltas, nodoArbol * arbolBajas)
 {
+    char mensaje[100];
+    char nombrePelicula[60];
+    nodoArbol * peliculaArbol;
     nodoRecomendacion * nuevaRecomendacion=malloc(sizeof(nodoRecomendacion));
+    strcpy(nuevaRecomendacion->recomendacion.remitente, nombreRemitente);
+    printf("Ingrese el nombre de la pelicula que desea recomendar\n");
+    fflush(stdin);
+    gets(mensaje);
+    strcpy(nuevaRecomendacion->recomendacion.mensaje, mensaje);
+    printf("Ingrese el nombre de la pelicula que desea recomendar\n");
+    fflush(stdin);
+    gets(nombrePelicula);
+    peliculaArbol=buscarPeliNombre(arbolAltas, nombrePelicula);
+    while(!peliculaArbol)
+    {
+        printf("La pelicula no existe o fue dada de baja. Ingrese otro nombre por favor\n");
+        fflush(stdin);
+        gets(nombrePelicula);
+        peliculaArbol=buscarPeliNombre(arbolAltas, nombrePelicula);
+    }
+    nuevaRecomendacion->recomendacion.peli=
+        nuevaRecomendacion->recomendacion.usuarioReceptor
+        nuevaRecomendacion->recomendacion.mensajeVisto=0;
+
 
 }
 
@@ -273,14 +296,13 @@ void muestraRecomendacionesActivas (stRecomendacion recoActiva)
         printf("De: %s\n", recoActiva.remitente);
         printf("Mensaje: %s\n", usuario.nombreUsuario);
         printf("--------------------------------------\n");
-        printf("Te recomienda ver la siguiente peli:\n");
-
-
+        printf("Te recomiendan ver la siguiente peli:\n");
+        mostrarPelicula(recoActiva.peli);
     }
-
 }
 
 void muestraTodasRecomendaciones (stRecomendacion reco)
 {
-    stRecomendacion p_reco;
+
 }
+*/

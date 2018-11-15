@@ -188,7 +188,7 @@ int devuelveUltimoIDUsuario(nodoUsuario * listaAlta, nodoUsuario * listaBaja)///
 {
     int ultimoID=0;
     nodoUsuario * aux;
-    aux= UltimoNodoUsuario(listaAlta);
+    aux= buscarUltimoNodoUsuario(listaAlta);
     if(aux)
         ultimoID=aux->usr.idUsuario;
     aux=buscarUltimoNodoUsuario(listaBaja);
@@ -197,7 +197,7 @@ int devuelveUltimoIDUsuario(nodoUsuario * listaAlta, nodoUsuario * listaBaja)///
         if(aux->usr.idUsuario>ultimoID)
             ultimoID=aux->usr.idUsuario;
     }
-   return ultimoID;
+    return ultimoID;
 }
 
 nodoUsuario * eliminaNodo(nodoUsuario * LDL)///ELIMINA EL NODO Y DA LA REFERENCIA AL SIGUIENTE
@@ -248,7 +248,7 @@ void cambiaEstadoUsuario(nodoUsuario *LDL)
 /////////////////ESTRUCTURA DE USUARIOS////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 
-void modificaDatosPersonales(nodoUsuario * LDL)
+void modificaDatosPersonales(nodoUsuario * LDL, nodoUsuario * listaAlta, nodoUsuario * listaBaja)
 {
     int opcion;
     printf("Ingrese el numero de opción del campo que desea editar\n");
@@ -263,19 +263,26 @@ void modificaDatosPersonales(nodoUsuario * LDL)
         printf("Ingrese una opción v%clida.\n",160);
         scanf("%d", &opcion);
     }
-    LDL->usr=modificaUsuario(LDL->usr, opcion);///ENVÍA OPCION Y POSICION, EDITA EL CAMPO INDICADO POR USUARIO.
+    LDL->usr=modificaUsuario(LDL->usr, opcion, listaAlta, listaBaja);///ENVÍA OPCION Y POSICION, EDITA EL CAMPO INDICADO POR USUARIO.
 }
 
-stUsuario modificaUsuario(stUsuario usuarioAModificar, int opcion)
+stUsuario modificaUsuario(stUsuario usuarioAModificar, int opcion, nodoUsuario * listaAlta, nodoUsuario * listaBaja)
 {
     char password[11];
-    int passOK;
+    int passOK, existe;
     switch(opcion)
     {
     case 1:
         printf("Ingrese el nuevo nombre de usuario:\n");
         fflush(stdin);
         gets(usuarioAModificar.nombreUsuario);
+        existe=consultaExistenciaUsuario(listaAlta, listaBaja, usuarioAModificar.nombreUsuario);
+        while(existe==1)
+        {
+            printf("Ese nombre ya est%c en uso, ingrese otro\n", 160);
+            gets(usuarioAModificar.nombreUsuario);
+            existe=consultaExistenciaUsuario(listaAlta, listaBaja, usuarioAModificar.nombreUsuario);
+        }
         break;
     case 2:
         printf("Ingrese el nuevo genero:\n");
