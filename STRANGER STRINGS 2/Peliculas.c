@@ -630,10 +630,11 @@ nodoArbol* arbolBalanceado(stPelicula arr[], int i, int validos)
     int medio = (i + validos)/2;
     if (i > validos-1)
         arbol=NULL;
-    else{
-    arbol=crearNodoArbol(arr[medio]);
-    arbol->izq =  arbolBalanceado(arr, i, medio-1);
-    arbol->der = arbolBalanceado(arr, medio +1, validos);
+    else
+    {
+        arbol=crearNodoArbol(arr[medio]);
+        arbol->izq =  arbolBalanceado(arr, i, medio-1);
+        arbol->der = arbolBalanceado(arr, medio +1, validos);
     }
     return arbol;
 }
