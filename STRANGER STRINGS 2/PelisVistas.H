@@ -1,7 +1,6 @@
 #include "structs.h"
 
-stPelisVistas valoracionPorUsuario(stPelisVistas peliVista);
-///retorna un stpelicula con la calificacion de usuario ingresada
+
 void pasarDeArchivoPelisVistasToLDL(char ruta [], nodoUsuario ** lDlAlta, nodoUsuario ** lDlBaja, nodoArbol * arbolAlta, nodoArbol * arbolBaja);///REVISAR
 //
 void actualizarPeliculasVistas(char ruta [], nodoUsuario ** lDlAlta, nodoUsuario ** lDlBaja);
@@ -16,6 +15,8 @@ nodoListaPelicula * crearNodoListaPeliculas(stPelicula peli, int valoracion);
 ///Retorna un nodoListaPelicula
 void borrarUltimaPeliVista(nodoListaPelicula ** lista);
 void reproducirPelicula(nodoListaPelicula ** listaUsr, int peliID);
+stPelisVistas crearPeliVista(int valoracion, int peliID, int usrID);
+int existePeliVista(nodoListaPelicula * listaUsr, stPelicula nuevaPeli);
 
 /// //////////////////////////////////////////////////////////////////////////////////////
 

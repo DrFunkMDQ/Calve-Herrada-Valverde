@@ -1,13 +1,6 @@
 #include "PelisVistas.H"
 
-stPelisVistas valoracionPorUsuario(stPelisVistas peliVista)
-{
-    printf("Que te ha parecido la pelicula?\n");
-    printf("Ingresa un valor del 1 al 5.\n");
-    printf("Muchas Gracias!!");
-    scanf("%d", &peliVista.valUser);
-    return peliVista;
-}
+
 void pasarDeArchivoPelisVistasToLDL(char ruta [], nodoUsuario ** lDlAlta, nodoUsuario ** lDlBaja, nodoArbol * arbolAlta, nodoArbol * arbolBaja)
 {
     nodoListaPelicula * listaAlta;
@@ -79,50 +72,62 @@ nodoListaPelicula * crearNodoListaPeliculas(stPelicula peli, int valoracion)
     return aux;
 }
 
+stPelisVistas crearPeliVista (int valoracion, int peliID, int usrID, int peliVIstaID){///           CHEKEAR
+    stPelisVistas peliVista;
+    peliVista.idPelicula = peliID;
+    peliVista.idUsuario = usrID;
+    peliVista.valUser = valoracion;
+    peliVista.idPeliVista = peliVIstaID;/// como trabajar ID
+}
+
 void agregarPpiolListaPeliculas (nodoListaPelicula ** lista, nodoListaPelicula * nuevoNodo)
 {
     nuevoNodo->sig = *lista;
     *lista = nuevoNodo;
 }
 
-void actualizarPeliculasVistas(char ruta [], nodoUsuario ** lDlAlta, nodoUsuario ** lDlBaja)
+void actualizarPeliculasVistas(char ruta [], nodoUsuario ** lDlAlta, nodoUsuario ** lDlBaja) /// cuando solucione ID
 {
     FILE * archivo;
     if(archivo = fopen(ruta, "wb"))
     {
-        actualizarPvAlta(ruta, &lDlAlta);
-        actualizarPvBaja(ruta, &lDlBaja);
+        actualizarPvAlta(archivo, &lDlAlta);
+        actualizarPvBaja(archivo, &lDlBaja);
     }
     fclose(archivo);
 }
 
-void actualizarPvAlta (FILE * archivo, nodoUsuario ** lDlAlta)
+void actualizarPvAlta (FILE * archivo, nodoUsuario ** lDlAlta, int * peliVistaID) /// cuando solucione ID
 {
+    stPelisVistas peliVista;
     while(*lDlAlta)
     {
         while((*lDlAlta)->listaPelis)
         {
-            fwrite((*lDlAlta)->listaPelis, sizeof(stPelisVistas), 1, archivo);
+            peliVista = crearPeliVista((*lDlAlta)->listaPelis.valUser, (*lDlAlta)->listaPelis.idPelicula, (*lDlAlta)->usr.idUsuario);
+            peliVista = peliVista + 1;///pasar ID por puntero
+            fwrite(&peliVista, sizeof(stPelisVistas), 1, archivo);
             borrarPrimerPeliVista(&(*lDlAlta)->listaPelis);
         }
         *lDlAlta = (*lDlAlta)->sig;
     }
 }
 
-void actualizarPvBaja (FILE * archivo, nodoUsuario ** lDlBaja)
+void actualizarPvBaja (FILE * archivo, nodoUsuario ** lDlBaja, int *peliVistaID) /// cuando solucione ID
 {
+    stPelisVistas peliVista;
     while(*lDlBaja)
     {
         while((*lDlBaja)->listaPelis)
         {
+            peliVista = crearPeliVista((*lDlBaja)->listaPelis.valUser, (*lDlBaja)->listaPelis.idPelicula, (*lDlBaja)->usr.idUsuario);
+            peliVista = peliVista + 1;///pasar ID por puntero
             fwrite((*lDlBaja)->listaPelis, sizeof(stPelisVistas), 1, archivo);
             borrarPrimerPeliVista(&(*lDlBaja)->listaPelis);
         }
         *lDlBaja = (*lDlBaja)->sig;
     }
 }
-
-
 
 void borrarPrimerPeliVista(nodoListaPelicula ** lista)
 {
@@ -157,11 +162,33 @@ void borrarUltimaPeliVista(nodoListaPelicula ** lista)
     }
 }
 
-void reproducirPelicula(nodoListaPelicula ** listaUsr, int peliID){
-    ///agregarAlFinal(listaUsr, buscarPeliID(arbolBaja, auxPeli.idPelicula);///SAKE)
+void reproducirPelicula(nodoListaPelicula ** listaUsr, int peliID, nodoArbol * arbolAlta){///chekear si ya vio la peli
+    nodoArbol * auxPeliArbol;
+    nodoListaPelicula * auxPeliVista;
+    int valoracion;
+    /// auxPeliArbol = buscaPeliID(arbolAlta, peliID); SAKEE
+    if(existePeliVista(*listaUsr, auxPeliArbol->pelicula) == 0){
+        printf("Que te ha parecido la pelicula?\n");
+        printf("Ingresa un valor del 1 al 5.\n");
+        printf("Muchas Gracias!!");
+        scanf("%d", &valoracion);
+        auxPeliVista = crearNodoListaPeliculas(auxPeliArbol->pelicula, valoracion);
+        agregarAlFinal(listaUsr, auxPeliVista);
+    }
+    /// EMI URL
+}
 
+int existePeliVista(nodoListaPelicula * listaUsr, stPelicula nuevaPeli){
+    int flag = 0;
+    while(listaUsr){
+        if(listaUsr->pelicula == nuevaPeli);
+            flag = 1;
+        listaUsr = listaUsr->sig;
+    }
+    return flag;
 }
 /// ///////////////////////////////////////////////////////////////////////
+
 void agregarAlPrincipio(nodoListaPelicula ** lista, nodoListaPelicula * nuevoNodo)
 {
     nuevoNodo->sig = *lista;
@@ -219,7 +246,7 @@ void mostrarLista(nodoListaPelicula * lista)
     nodoListaPelicula * seg = lista;
     while(seg != NULL)
     {
-        //mostrarPelicla(seg->pelicula);                     ///sake
+        ///mostrarPelicla(seg->pelicula);                     ///sake
         seg = seg->sig;
     }
 }
