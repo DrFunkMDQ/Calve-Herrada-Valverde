@@ -13,13 +13,13 @@ stPelicula modificaPelicula(nodoArbol *arbolActivo, nodoArbol *arbolEliminado, s
         insertarNombre(arbolActivo, arbolEliminado, &pelicula.nombrePelicula);
         break;
     case 2:
-        insertarDirector(&pelicula.director);
+        insertarTexto(pelicula.director);
         break;
     case 3:
         insertarGenero(&pelicula.genero);
         break;
     case 4:
-        insertarPais(&pelicula.pais);
+        insertarTexto(pelicula.pais);
         break;
     case 5:
         insertarAnio(&pelicula.anio);
@@ -31,8 +31,7 @@ stPelicula modificaPelicula(nodoArbol *arbolActivo, nodoArbol *arbolEliminado, s
         insertarPM(&pelicula.pm);
         break;
     case 8:
-        fflush(stdin);
-        gets(pelicula.url);
+        insertarTexto(pelicula.url);
         break;
     }
     system("cls");
@@ -69,16 +68,14 @@ stPelicula crearPelicula(nodoArbol *arbolActivo, nodoArbol *arbolEliminado) //Cr
     stPelicula peliNueva;
     insertarNombre(arbolActivo, arbolEliminado, &peliNueva.nombrePelicula); //Ingresa nombre a la pelicula
     peliNueva.idPelicula = ultimoIDPelicula(arbolActivo, arbolEliminado) + 1; //Se le asigna un ID
-    insertarDirector(&peliNueva.director); //Se le ingresa director
+    insertarTexto(peliNueva.director); //Se le ingresa director
     insertarGenero(&peliNueva.genero); //Se le ingresa genero(CON MATRIZ)
-    insertarPais(&peliNueva.pais); //Se le ingresa pais
+    insertarTexto(peliNueva.pais); //Se le ingresa pais
     insertarAnio(&peliNueva.anio);                                                      //Se le ingresa año
     insertarValoracion(&peliNueva.valoracion);           //Se le ingresa Valoracion
     insertarPM(&peliNueva.pm);                                                        //Se le ingresa PM
     peliNueva.eliminado = 0;                                                    //Se crea sin eliminar
-    printf("Ingrese URL\n");
-    fflush(stdin);
-    scanf("%s", &peliNueva.url);                    //Se le ingresa URL
+    insertarTexto(peliNueva.url);                  //Se le ingresa URL
     return peliNueva; //Retorna la pelicula
 }
 
@@ -178,7 +175,7 @@ nodoArbol *buscarPeliNombre(nodoArbol *arbol, char nombre[]) //Busca y retorna u
     return aux;
 }
 
-nodoArbol *creaYcargaPeliculaAlArbol(nodoArbol *arbolActivo, nodoArbol *arbolEliminado)//Debe igualarse al arbolActivo
+nodoArbol *creaYcargaPeliculaAlArbol(nodoArbol *arbolActivo, nodoArbol *arbolEliminado)//subprograma crea y carga una pelicula en un arbol(siempre debe ser el activo
 {
     nodoArbol *aux;
     stPelicula nueva = crearPelicula(arbolActivo, arbolEliminado);
@@ -188,7 +185,7 @@ nodoArbol *creaYcargaPeliculaAlArbol(nodoArbol *arbolActivo, nodoArbol *arbolEli
     return arbolActivo;
 }
 
-nodoArbol *insertarNuevoArbol(nodoArbol *arbolDestino, nodoArbol *nuevoArbol)
+nodoArbol *insertarNuevoArbol(nodoArbol *arbolDestino, nodoArbol *nuevoArbol)//Inserta un nuevo nodo en el arbol
 {
 
 
@@ -228,7 +225,7 @@ nodoArbol *buscarPeliID(nodoArbol *arbol, int id) //Busca y retorna una pelicula
 }
 
 //retorna 1 o 0 dependiendo si esta o no.
-int existenciaArbolPeliculaNombre(nodoArbol *arbol, char nombre[])
+int existenciaArbolPeliculaNombre(nodoArbol *arbol, char nombre[])//Verifica la existencia de una pelicula en un arbol por nombre y devuelve 1 o 0
 {
     int existe = 0;
     if(arbol)
@@ -247,7 +244,7 @@ int existenciaArbolPeliculaNombre(nodoArbol *arbol, char nombre[])
     return existe;
 }
 
-int existenciaPeliculaNombre(nodoArbol *arbolActivo, nodoArbol *arbolEliminado, char nombre[])
+int existenciaPeliculaNombre(nodoArbol *arbolActivo, nodoArbol *arbolEliminado, char nombre[])//Verifica la existencia de una pelicula en ambos arboles por nombre y devuelve 1 o 0
 {
     int existe;
     existe = existenciaArbolPeliculaNombre(arbolActivo, nombre);
@@ -258,7 +255,7 @@ int existenciaPeliculaNombre(nodoArbol *arbolActivo, nodoArbol *arbolEliminado, 
     return existe;
 }
 
-nodoArbol * nodoMasIzquierdo(nodoArbol * arbol)
+nodoArbol * nodoMasIzquierdo(nodoArbol * arbol)//retorna el nodo mas izquierdo del arbol
 {
     nodoArbol * nmi;
     if(arbol)
@@ -274,7 +271,7 @@ nodoArbol * nodoMasIzquierdo(nodoArbol * arbol)
 
 }
 
-nodoArbol * borrarNodoArbolPelicula(nodoArbol * arbol, int id)
+nodoArbol * borrarNodoArbolPelicula(nodoArbol * arbol, int id) //(horrorosa funcion) borra un nodo del arbol por id
 {
     if(arbol)
     {
@@ -306,7 +303,7 @@ nodoArbol * borrarNodoArbolPelicula(nodoArbol * arbol, int id)
     return arbol;
 }
 
-nodoArbol *borrarArbol(nodoArbol *arbol)
+nodoArbol *borrarArbol(nodoArbol *arbol) //Borra todo el arbol(nose cuando lo usaria por fue facil de codear) XD
 {
     if(arbol)
     {
@@ -321,7 +318,7 @@ nodoArbol *borrarArbol(nodoArbol *arbol)
 
 
 
-void insertarNombre(nodoArbol *arbolActivo, nodoArbol *arbolEliminado, char *nombre[])
+void insertarNombre(nodoArbol *arbolActivo, nodoArbol *arbolEliminado, char *nombre[]) //Pide un nombre para la pelicula y valida que no exista anteriormente
 {
     int existencia;
     char nuevoNombre[60];
@@ -342,7 +339,7 @@ void insertarNombre(nodoArbol *arbolActivo, nodoArbol *arbolEliminado, char *nom
     strcpy(nombre, nuevoNombre);
 }
 
-void modificarNodoArbol(nodoArbol *arbolActivo, nodoArbol *arbolEliminado)
+void modificarNodoArbol(nodoArbol *arbolActivo, nodoArbol *arbolEliminado) //Busca una pelicula en ambos arboles por nombre o id y le modifica un campo
 {
     nodoArbol *aux = NULL;
     int opcion;
@@ -382,16 +379,17 @@ void modificarNodoArbol(nodoArbol *arbolActivo, nodoArbol *arbolEliminado)
 
 
     }
-aux->pelicula = modificaPelicula(arbolActivo, arbolEliminado, aux->pelicula);}
-
-void insertarDirector(char *director)
-{
-    printf("Ingrese director\n");
-    fflush(stdin);
-    gets(director);
+aux->pelicula = modificaPelicula(arbolActivo, arbolEliminado, aux->pelicula);
 }
 
-void insertarPM(int *pm)
+void insertarTexto(char texto[])
+{
+    printf("Ingrese %s\n", texto);
+    fflush(stdin);
+    gets(texto);
+}
+
+void insertarPM(int *pm) //Valida que el pm sea ATP, +13, +16, +18
 {
     int numero;
     do
@@ -407,7 +405,7 @@ void insertarPM(int *pm)
     *pm = numero;
 }
 
-void insertarValoracion(int *valoracion)
+void insertarValoracion(int *valoracion) //Valida que la valoracion sea entre 1 y 5
 {
     int numero;
     do
@@ -422,7 +420,7 @@ void insertarValoracion(int *valoracion)
     *valoracion = numero;
 }
 
-void insertarAnio(int *anio)
+void insertarAnio(int *anio) //Valida que el año ingresado comienze desde la primera pelicula existente en 1895
 {
     int num;
     do
@@ -439,7 +437,7 @@ void insertarAnio(int *anio)
     *anio = num;
 }
 
-void insertarGenero(char *genero)
+void insertarGenero(char *genero) //Escoge un genero de la matriz y lo copia en el campo de genero
 {
 
     int topic;
@@ -479,7 +477,7 @@ void insertarPais(char *pais)
     gets(pais);
 }
 
-nodoArbol *pasarNodoOtroArbol(nodoArbol *arbol1, nodoArbol **arbol2, int id)
+nodoArbol *pasarNodoOtroArbol(nodoArbol *arbol1, nodoArbol **arbol2, int id) //busca una pelicula por id la borra y la cambia de arbol
 {
     nodoArbol *aux = buscarPeliID(arbol1, id);
     if(aux->pelicula.eliminado == 0)
@@ -492,7 +490,7 @@ nodoArbol *pasarNodoOtroArbol(nodoArbol *arbol1, nodoArbol **arbol2, int id)
     return arbol1;
 }
 
-void altaBajaPelicula(nodoArbol **arbolActivo, nodoArbol **arbolEliminado)
+void altaBajaPelicula(nodoArbol **arbolActivo, nodoArbol **arbolEliminado) //subPrograma busca la pelicula, muestra su estado y al cambiarlo la cambia de arbol
 {
     int id;
     char control;
@@ -533,7 +531,7 @@ void altaBajaPelicula(nodoArbol **arbolActivo, nodoArbol **arbolEliminado)
         printf("No es una pelicula valida\n");
 }
 /////////////////////////////////////////////////// ARCHIVOS
-void persistirPeliculas(nodoArbol *arbol, FILE *archi)
+void persistirPeliculas(nodoArbol *arbol, FILE *archi) //Persiste un arbol en el archivo
 {
     stPelicula pelicula;
     if(arbol)
@@ -545,7 +543,7 @@ void persistirPeliculas(nodoArbol *arbol, FILE *archi)
     }
 }
 
-void persistirTodo(nodoArbol *arbolActivo, nodoArbol *arbolEliminado)
+void persistirTodo(nodoArbol *arbolActivo, nodoArbol *arbolEliminado) //Subprograma persiste los 2 arboles en el archivo
 {
     FILE *archi;
     if(archi = fopen("peliculas.dat", "wb"))
@@ -561,7 +559,7 @@ void persistirTodo(nodoArbol *arbolActivo, nodoArbol *arbolEliminado)
     }
 }
 
-void cantidadPelisArchivo(int *activo, int *eliminado)
+void cantidadPelisArchivo(int *activo, int *eliminado) //Trae 2 punteros a enteros igualadas a 0 e incrementan por cada pelicula
 {
     stPelicula peli;
     FILE *archi = fopen("peliculas.dat", "rb");
@@ -583,7 +581,7 @@ void cantidadPelisArchivo(int *activo, int *eliminado)
         printf("No se pudo abrir el archivo\n");
 }
 
-void cargaArreglos(stPelicula activas[], stPelicula eliminadas[])
+void cargaArreglos(stPelicula activas[], stPelicula eliminadas[]) //Carga los arreglos desde el archivo
 {
     int a = 0;
     int b = 0;
@@ -607,11 +605,11 @@ void cargaArreglos(stPelicula activas[], stPelicula eliminadas[])
         printf("El archivo no pudo abrirse correctamente\n");
 }
 
-void levantarArboles(nodoArbol **arbolActivo, nodoArbol **arbolEliminado)
+void levantarArboles(nodoArbol **arbolActivo, nodoArbol **arbolEliminado) //Subprograma que abre el archivo, carga arreglos y los pasa a los arboles
 {
-    int a = 0;
-    int b = 0;
-    int i = 0;
+    int a = 0;//Cantidad de peliculas dadas de alta
+    int b = 0;//Cantidad de peliculas dadas de baja
+    int i = 0;//contador
     cantidadPelisArchivo(&a, &b);
     stPelicula *activas =(stPelicula*) malloc(sizeof(stPelicula) * a);
     stPelicula *eliminadas = (stPelicula*) malloc(sizeof(stPelicula ) *b );

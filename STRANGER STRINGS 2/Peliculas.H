@@ -6,9 +6,8 @@ void mostrarPelicula(stPelicula pelicula);  //Muestra una pelicula
 stPelicula crearPelicula(nodoArbol *arbolActivo, nodoArbol *arbolEliminado);
 void insertarNombre(nodoArbol *arbolActivo, nodoArbol *arbolEliminado, char *nombre[]);
 void insertarAnio(int *anio);
-void insertarDirector(char *director);
+void insertarTexto(char texto[]);
 void insertarGenero(char *genero);
-void insertarPais(char *pais);
 void insertarPM(int *pm);
 void insertarValoracion(int *valoracion);
 ///ARBOLES
@@ -37,3 +36,12 @@ nodoArbol *pasarNodoOtroArbol(nodoArbol *arbol1, nodoArbol **arbol2, int id);
 void persistirTodo(nodoArbol *arbolActivo, nodoArbol *arbolEliminado);
 void persistirPeliculas(nodoArbol *arbol, FILE *archi);
 nodoArbol *arbolBalanceado(stPelicula arr[], int i, int validos);
+///// USAR
+//altaBajaPelicula
+//creaYcargaPeliculaAlArbol
+//modificarNodoArbol
+//levantarArboles /////INICIAR PROGRAMA SI O SI
+//persistirTodo /////CERRAR PROGRAMA SI O SI
+//buscarPeliID
+//buscarPeliNombre
+// preorder
